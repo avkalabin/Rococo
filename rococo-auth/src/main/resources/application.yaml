@@ -48,3 +48,28 @@ rococo-front:
   base-uri: 'http://127.0.0.1:3000'
 rococo-auth:
   base-uri: 'http://127.0.0.1:9000'
+oauth2:
+  client-id: 'client'
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'local'
+  autoconfigure:
+    exclude:
+      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
+  kafka:
+    bootstrap-servers: 'localhost:9092'
+  datasource:
+    url: 'jdbc:mysql://127.0.0.1:3306/rococo-auth?serverTimezone=UTC&createDatabaseIfNotExist=true'
+    username: root
+    password: secret
+  rococo-front:
+    base-uri: 'http://127.0.0.1:3000'
+  rococo-auth:
+    base-uri: 'http://127.0.0.1:9000'
+  oauth2:
+    client-id: 'client'
