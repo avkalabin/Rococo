@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public record Artist(
+public record ArtistJson(
         @JsonProperty("id")
         UUID id,
         @JsonProperty("name")
