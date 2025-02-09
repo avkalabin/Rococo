@@ -44,7 +44,7 @@ grpc:
 
 rococo-artist:
   base-uri: 'http://127.0.0.1:8091'
-rococo-country:
+rococo-geo:
   base-uri: 'http://127.0.0.1:8092'
 rococo-museum:
   base-uri: 'http://127.0.0.1:8093'
