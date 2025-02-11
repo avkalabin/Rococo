@@ -12,7 +12,6 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation "net.devh:grpc-server-spring-boot-starter:${project.ext.springGrpcVersion}"
-    implementation "org.springframework.cloud:spring-cloud-starter-vault-config:${project.ext.springVaultVersion}"
     implementation "org.flywaydb:flyway-core:${project.ext.flywayVersion}"
     implementation "org.flywaydb:flyway-mysql:${project.ext.flywayVersion}"
     annotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
@@ -27,12 +26,11 @@ jib {
         ports = ['8092']
         jvmFlags = ["-Dspring.profiles.active=${System.env.PROFILE}"]
         environment = [
-                'VAULT_TOKEN': "${System.env.VAULT_TOKEN}".toString(),
                 'TZ'         : 'Europe/Moscow'
         ]
         creationTime = 'USE_CURRENT_TIMESTAMP'
         labels = [
-                'maintainer': 'Andrey Kalabin @dtuchs',
+                'maintainer': 'Andrey Kalabin @avkalabin',
                 'version'   : "${project.version}".toString()
         ]
     }
