@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package guru.qa.grpc.rococo;
+
+import "rococo-artist.proto";
+import "rococo-museum.proto";
+
+option java_multiple_files = true;
+option java_package = "guru.qa.grpc.rococo";
+option java_outer_classname = "RococoPaintingProto";
+
+service RococoPaintingService {
+    rpc ListPaintings (ListPaintingsRequest) returns (ListPaintingsResponse) {}
+    rpc GetPaintingById (PaintingRequest) returns (Painting) {}
+    rpc GetPaintingByArtist (PaintingByArtistRequest) returns (ListPaintingsResponse) {}
+    rpc CreatePainting (Painting) returns (Painting) {}
+    rpc UpdatePainting (Painting) returns (Painting) {}
+}
+
+message ListPaintingsRequest {
+    optional string name = 1;
+    int32 page = 2;
+    int32 size = 3;
+}
+
+message ListPaintingsResponse {
+    repeated Painting paintings = 1;
+    int32 total_count = 2;
+}
+
+message PaintingRequest {
+    string id = 1;
+}
+
+message PaintingByArtistRequest {
+    ArtistRequest artist = 1;
+    int32 page = 2;
+    int32 size = 3;
+}
+
+message Painting {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    string content = 4;
+    Museum museum = 5;
+    Artist artist = 6;
+}
+
