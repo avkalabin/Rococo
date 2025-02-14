@@ -7,17 +7,17 @@ option java_package = "guru.qa.grpc.rococo";
 option java_outer_classname = "RococoGeoProto";
 
 service RococoGeoService {
-    rpc ListCountries (ListCountriesRequest) returns (ListCountriesResponse) {}
+    rpc GetAllCountries (AllCountriesRequest) returns (AllCountriesResponse) {}
 }
 
-message ListCountriesRequest {
+message AllCountriesRequest {
     int32 page = 1;
     int32 size = 2;
 }
 
-message ListCountriesResponse {
+message AllCountriesResponse {
     repeated Country countries = 1;
-    int32 total_count = 2;
+    int64 total_count = 2;
 }
 
 message Country {

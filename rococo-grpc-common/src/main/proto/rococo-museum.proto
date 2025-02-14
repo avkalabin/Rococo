@@ -9,21 +9,21 @@ option java_package = "guru.qa.grpc.rococo";
 option java_outer_classname = "RococoMuseumProto";
 
 service RococoMuseumService {
-    rpc ListMuseums (ListMuseumsRequest) returns (ListMuseumsResponse) {}
+    rpc GetAllMuseums (AllMuseumsRequest) returns (AllMuseumsResponse) {}
     rpc GetMuseumById (MuseumRequest) returns (Museum) {}
     rpc CreateMuseum (Museum) returns (Museum) {}
     rpc UpdateMuseum (Museum) returns (Museum) {}
 }
 
-message ListMuseumsRequest {
+message AllMuseumsRequest {
     optional string title = 1;
     int32 page = 2;
     int32 size = 3;
 }
 
-message ListMuseumsResponse {
+message AllMuseumsResponse {
     repeated Museum museums = 1;
-    int32 total_count = 2;
+    int64 total_count = 2;
 }
 
 message MuseumRequest {

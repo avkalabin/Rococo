@@ -1,4 +1,4 @@
-package quru.qa.rococo.service;
+package guru.qa.rococo.service;
 
 import jakarta.annotation.Nonnull;
 import org.slf4j.Logger;

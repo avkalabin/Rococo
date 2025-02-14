@@ -10,22 +10,22 @@ option java_package = "guru.qa.grpc.rococo";
 option java_outer_classname = "RococoPaintingProto";
 
 service RococoPaintingService {
-    rpc ListPaintings (ListPaintingsRequest) returns (ListPaintingsResponse) {}
+    rpc GetAllPaintings (AllPaintingsRequest) returns (AllPaintingsResponse) {}
     rpc GetPaintingById (PaintingRequest) returns (Painting) {}
-    rpc GetPaintingByArtist (PaintingByArtistRequest) returns (ListPaintingsResponse) {}
+    rpc GetPaintingByArtist (PaintingByArtistRequest) returns (AllPaintingsResponse) {}
     rpc CreatePainting (Painting) returns (Painting) {}
     rpc UpdatePainting (Painting) returns (Painting) {}
 }
 
-message ListPaintingsRequest {
+message AllPaintingsRequest {
     optional string name = 1;
     int32 page = 2;
     int32 size = 3;
 }
 
-message ListPaintingsResponse {
+message AllPaintingsResponse {
     repeated Painting paintings = 1;
-    int32 total_count = 2;
+    int64 total_count = 2;
 }
 
 message PaintingRequest {

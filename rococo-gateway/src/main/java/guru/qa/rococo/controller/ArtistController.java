@@ -2,6 +2,7 @@ package guru.qa.rococo.controller;
 
 import guru.qa.rococo.model.ArtistJson;
 import guru.qa.rococo.service.api.GrpcArtistClient;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,5 +31,15 @@ public class ArtistController {
     @GetMapping("/{id}")
     public ArtistJson getArtistById(@PathVariable UUID id) {
         return grpcArtistClient.getArtistById(id);
+    }
+
+    @PostMapping
+    public ArtistJson createArtist(@Valid @RequestBody ArtistJson artist) {
+        return grpcArtistClient.createArtist(artist);
+    }
+
+    @PatchMapping
+    public ArtistJson updateArtist(@Valid @RequestBody ArtistJson artist) {
+        return grpcArtistClient.updateArtist(artist);
     }
 }

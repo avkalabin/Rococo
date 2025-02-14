@@ -7,21 +7,21 @@ option java_package = "guru.qa.grpc.rococo";
 option java_outer_classname = "RococoArtistProto";
 
 service RococoArtistService {
-    rpc ListArtists (ListArtistsRequest) returns (ListArtistsResponse) {}
+    rpc GetAllArtists (AllArtistsRequest) returns (AllArtistsResponse) {}
     rpc GetArtistById (ArtistRequest) returns (Artist) {}
     rpc CreateArtist (Artist) returns (Artist) {}
     rpc UpdateArtist (Artist) returns (Artist) {}
 }
 
-message ListArtistsRequest {
+message AllArtistsRequest {
     optional string name = 1;
     int32 page = 2;
     int32 size = 3;
 }
 
-message ListArtistsResponse {
+message AllArtistsResponse {
     repeated Artist artists = 1;
-    int32 total_count = 2;
+    int64 total_count = 2;
 }
 
 message ArtistRequest {
