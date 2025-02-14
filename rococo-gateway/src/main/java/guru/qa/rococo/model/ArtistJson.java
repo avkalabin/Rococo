@@ -17,6 +17,7 @@ public record ArtistJson(
 
     public static ArtistJson fromGrpc(Artist response) {
         return new ArtistJson(
+
                 UUID.fromString(response.getId()),
                 response.getName(),
                 response.getBiography(),
