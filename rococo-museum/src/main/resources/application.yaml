@@ -46,6 +46,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+grpc:
+  client:
+    grpcGeoClient:
+      address: 'static://localhost:8094'
+      negotiationType: PLAINTEXT
 ---
 spring:
   config:
@@ -56,4 +61,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+grpc:
+  client:
+    grpcGeoClient:
+      address: 'static://geo.rococo.dc:8094'
+      negotiationType: PLAINTEXT
 ---

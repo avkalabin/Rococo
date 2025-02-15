@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.UUID;
+
+import static io.grpc.Status.NOT_FOUND;
+
 @GrpcService
 public class GrpcGeoService extends RococoGeoServiceGrpc.RococoGeoServiceImplBase {
 
@@ -35,6 +39,19 @@ public class GrpcGeoService extends RococoGeoServiceGrpc.RococoGeoServiceImplBas
                         .build()
         );
         responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getCountryById(CountryRequest request, StreamObserver<Country> responseObserver) {
+        countryRepository.findById(UUID.fromString(request.getId()))
+                .ifPresentOrElse(
+                        countryEntity -> {
+                            Country country = toGrpc(countryEntity);
+                            responseObserver.onNext(country);
+                            responseObserver.onCompleted();
+                        },
+                        () -> responseObserver.onError(NOT_FOUND.withDescription("Country not found by id: " + request.getId()).asRuntimeException())
+                );
     }
 
     private Country toGrpc(CountryEntity countryEntity) {
