@@ -10,7 +10,12 @@ version = '1.0.0'
 dependencies {
     implementation project(':rococo-grpc-common')
 
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation ('org.springframework.boot:spring-boot-starter-web'){
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+//    implementation('org.springframework.boot:spring-boot-starter-web-services') {
+//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+//    }
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation "net.devh:grpc-server-spring-boot-starter:${project.ext.springGrpcVersion}"
     implementation "net.devh:grpc-client-spring-boot-starter:${project.ext.springGrpcVersion}"

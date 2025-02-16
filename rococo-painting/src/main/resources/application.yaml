@@ -46,6 +46,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+grpc:
+  client:
+    grpcArtistClient:
+      address: 'static://localhost:8092'
+      negotiationType: PLAINTEXT
+    grpcMuseumClient:
+      address: 'static://localhost:8093'
+      negotiationType: PLAINTEXT
 ---
 spring:
   config:
@@ -56,4 +64,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+grpc:
+  client:
+    grpcArtistClient:
+      address: 'static://artist.rococo.dc:8092'
+      negotiationType: PLAINTEXT
+    grpcMuseumClient:
+      address: 'static://museum.rococo.dc:8093'
+      negotiationType: PLAINTEXT
 ---
