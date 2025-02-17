@@ -1,6 +1,7 @@
 package guru.qa.rococo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import guru.qa.grpc.rococo.User;
 import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
@@ -19,4 +20,13 @@ public record UserJson(
         @JsonProperty("avatar")
         String avatar
 ) {
+    public static UserJson fromGrpc(User user) {
+        return new UserJson(
+                UUID.fromString(user.getId()),
+                user.getUsername(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getAvatar()
+        );
+    }
 }
