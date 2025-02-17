@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 
-import java.util.Arrays;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @GrpcService
 public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdataServiceImplBase {
@@ -78,9 +78,9 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
         return User.newBuilder()
                 .setId(userEntity.getId().toString())
                 .setUsername(userEntity.getUsername())
-                .setFirstname(userEntity.getFirstname())
-                .setLastname(userEntity.getLastname())
-                .setAvatar(Arrays.toString(userEntity.getAvatar()))
+                .setFirstname(userEntity.getFirstname() != null ? userEntity.getFirstname() : "")
+                .setLastname(userEntity.getLastname() != null ? userEntity.getLastname() : "")
+                .setAvatar(userEntity.getAvatar() != null ? new String(userEntity.getAvatar(), UTF_8) : "")
                 .build();
     }
 }

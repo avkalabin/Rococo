@@ -1,7 +1,7 @@
 package guru.qa.rococo.service.api;
 
 import guru.qa.grpc.rococo.*;
-import guru.qa.rococo.model.PaintingJson;
+import guru.qa.rococo.model.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -106,35 +106,47 @@ public class GrpcPaintingClient {
     }
 
     private Painting toGrpc(PaintingJson painting) {
+        MuseumJson museumJson = painting.museum();
+        GeoJson geoJson = (museumJson != null) ? museumJson.geo() : null;
+        CountryJson countryJson = (geoJson != null) ? geoJson.country() : null;
 
-        Museum museum = Museum.newBuilder()
-                .setId(painting.museum().id().toString())
-                .setTitle(painting.museum().title())
-                .setDescription(painting.museum().description())
-                .setPhoto(painting.museum().photo())
-                .setGeo(Geo.newBuilder()
-                        .setCity(painting.museum().geo().city())
-                        .setCountry(Country.newBuilder()
-                                .setId(painting.museum().geo().country().id().toString())
-                                .setName(painting.museum().geo().country().name())
-                                .build())
-                        .build())
-                .build();
+        Museum.Builder museumBuilder = Museum.newBuilder();
+        if (museumJson != null) {
+            museumBuilder.setId(museumJson.id().toString());
+            if (museumJson.title() != null) museumBuilder.setTitle(museumJson.title());
+            if (museumJson.description() != null) museumBuilder.setDescription(museumJson.description());
+            if (museumJson.photo() != null) museumBuilder.setPhoto(museumJson.photo());
 
-        Artist artist = Artist.newBuilder()
-                .setId(painting.artist().id().toString())
-                .setName(painting.artist().name())
-                .setBiography(painting.artist().biography())
-                .setPhoto(painting.artist().photo())
-                .build();
+            if (geoJson != null) {
+                Geo.Builder geoBuilder = Geo.newBuilder().setCity(geoJson.city() != null ? geoJson.city() : "");
+                if (countryJson != null) {
+                    geoBuilder.setCountry(Country.newBuilder()
+                            .setId(countryJson.id().toString())
+                            .setName(countryJson.name() != null ? countryJson.name() : "")
+                            .build());
+                }
+                museumBuilder.setGeo(geoBuilder.build());
+            }
+        }
 
-        return Painting.newBuilder()
-                .setId(painting.id().toString())
-                .setTitle(painting.title())
-                .setDescription(painting.description())
-                .setContent(painting.content())
-                .setMuseum(museum)
-                .setArtist(artist)
-                .build();
+        ArtistJson artistJson = painting.artist();
+        Artist.Builder artistBuilder = Artist.newBuilder();
+        if (artistJson != null) {
+            artistBuilder.setId(artistJson.id().toString());
+            if (artistJson.name() != null) artistBuilder.setName(artistJson.name());
+            if (artistJson.biography() != null) artistBuilder.setBiography(artistJson.biography());
+            if (artistJson.photo() != null) artistBuilder.setPhoto(artistJson.photo());
+        }
+
+        Painting.Builder paintingBuilder = Painting.newBuilder()
+                .setId(painting.id() != null ? painting.id().toString() : "")
+                .setTitle(painting.title() != null ? painting.title() : "")
+                .setDescription(painting.description() != null ? painting.description() : "")
+                .setContent(painting.content() != null ? painting.content() : "")
+                .setMuseum(museumBuilder.build())
+                .setArtist(artistBuilder.build());
+
+        return paintingBuilder.build();
     }
+
 }

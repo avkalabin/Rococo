@@ -37,7 +37,7 @@ public class GrpcGeoClient {
                     .stream()
                     .map(CountryJson::fromGrpc)
                     .toList();
-            LOG.info("Successfully fetched {} artists", countryJsonList.size());
+            LOG.info("Successfully fetched {} countries", countryJsonList.size());
             return new PageImpl<>(countryJsonList, pageable, response.getTotalCount());
         } catch (StatusRuntimeException e) {
             LOG.error("### Error while calling gRPC server ", e);

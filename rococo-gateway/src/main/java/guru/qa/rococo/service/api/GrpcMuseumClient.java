@@ -88,7 +88,7 @@ public class GrpcMuseumClient {
     private Museum toGrpc(MuseumJson museum) {
         Country country = Country.newBuilder()
                 .setId(museum.geo().country().id().toString())
-                .setName(museum.geo().country().name())
+                .setName(museum.geo().country().name() != null ? museum.geo().country().name() : "")
                 .build();
         Geo geo = Geo.newBuilder()
                 .setCity(museum.geo().city())

@@ -22,14 +22,14 @@ public class UserEntity {
     @Column(name = "username", nullable = false, length = 50)
     private String username;
 
-    @Column(name = "firstname", nullable = false, length = 30)
+    @Column(name = "firstname", length = 30)
     private String firstname;
 
-    @Column(name = "lastname", nullable = false, length = 50)
+    @Column(name = "lastname", length = 50)
     private String lastname;
 
     @Lob
-    @Column(name = "avatar", nullable = false, columnDefinition = "MEDIUMBLOB")
+    @Column(name = "avatar", columnDefinition = "MEDIUMBLOB")
     private byte[] avatar;
 
 }
