@@ -33,8 +33,8 @@ public class GrpcPaintingService extends RococoPaintingServiceGrpc.RococoPaintin
     @Override
     public void getAllPaintings(AllPaintingsRequest request, StreamObserver<AllPaintingsResponse> responseObserver) {
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
-        Page<PaintingEntity> paintingPage = request.getName().isEmpty() ? paintingRepository.findAll(pageRequest)
-                : paintingRepository.findAllByTitleContainsIgnoreCase(request.getName(), pageRequest);
+        Page<PaintingEntity> paintingPage = request.getTitle().isEmpty() ? paintingRepository.findAll(pageRequest)
+                : paintingRepository.findAllByTitleContainsIgnoreCase(request.getTitle(), pageRequest);
         responseObserver.onNext(
                 AllPaintingsResponse.newBuilder()
                         .addAllPaintings(

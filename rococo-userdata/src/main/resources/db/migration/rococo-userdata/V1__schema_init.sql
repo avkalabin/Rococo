@@ -4,7 +4,7 @@ create table if not exists `user`
     username        varchar(50)  not null check (char_length(username) > 0),
     firstname       varchar(30),
     lastname        varchar(50),
-    avatar          longblob,
+    avatar          mediumblob,
     primary key (id)
 );
 

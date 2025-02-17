@@ -18,7 +18,7 @@ service RococoPaintingService {
 }
 
 message AllPaintingsRequest {
-    optional string name = 1;
+    optional string title = 1;
     int32 page = 2;
     int32 size = 3;
 }

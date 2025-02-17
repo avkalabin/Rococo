@@ -37,5 +37,13 @@ public class PaintingController {
         return grpcPaintingClient.getPaintingById(id);
     }
 
+    @PostMapping
+    public PaintingJson createPainting(@RequestBody PaintingJson painting) {
+        return grpcPaintingClient.createPainting(painting);
+    }
 
+    @PatchMapping
+    public PaintingJson updatePainting(@RequestBody PaintingJson painting) {
+        return grpcPaintingClient.updatePainting(painting);
+    }
 }
