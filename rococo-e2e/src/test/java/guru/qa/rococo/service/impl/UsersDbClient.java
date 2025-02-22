@@ -6,7 +6,7 @@ import guru.qa.rococo.data.entity.auth.Authority;
 import guru.qa.rococo.data.entity.auth.AuthorityEntity;
 import guru.qa.rococo.data.entity.userdata.UserdataEntity;
 import guru.qa.rococo.data.repository.AuthUserRepository;
-import guru.qa.rococo.data.repository.UserdataUserRepository;
+import guru.qa.rococo.data.repository.UserdataRepository;
 import guru.qa.rococo.data.repository.impl.AuthUserRepositoryHibernate;
 import guru.qa.rococo.data.repository.impl.UserdataRepositoryHibernate;
 import guru.qa.rococo.data.tpl.XaTransactionTemplate;
@@ -30,7 +30,7 @@ public class UsersDbClient implements UsersClient {
     private static final PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     private final AuthUserRepository authUserRepository = new AuthUserRepositoryHibernate();
-    private final UserdataUserRepository userdataUserRepository = new UserdataRepositoryHibernate();
+    private final UserdataRepository userdataRepository = new UserdataRepositoryHibernate();
 
     private final XaTransactionTemplate xaTransactionTemplate = new XaTransactionTemplate(
             CFG.authJdbcUrl(),
@@ -58,7 +58,7 @@ public class UsersDbClient implements UsersClient {
     private UserdataEntity createNewUser(String username, String password) {
         AuthUserEntity authUser = authUserEntity(username, password);
         authUserRepository.create(authUser);
-        return userdataUserRepository.create(userdataEntity(username));
+        return userdataRepository.create(userdataEntity(username));
     }
 
     @Nonnull

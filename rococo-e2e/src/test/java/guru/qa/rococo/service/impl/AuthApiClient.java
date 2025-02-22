@@ -32,7 +32,7 @@ public class AuthApiClient extends RestClient {
     @SneakyThrows
     public String login(String username, String password) {
         final String codeVerifier = OAuthUtils.generateCodeVerifier();
-        final String codeChallenge = OAuthUtils.generateCodeChallange(codeVerifier);
+        final String codeChallenge = OAuthUtils.generateCodeChallenge(codeVerifier);
 
         authApi.authorize(
                 RESPONSE_TYPE,

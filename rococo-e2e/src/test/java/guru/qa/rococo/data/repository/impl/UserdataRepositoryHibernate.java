@@ -2,7 +2,7 @@ package guru.qa.rococo.data.repository.impl;
 
 import guru.qa.rococo.config.Config;
 import guru.qa.rococo.data.entity.userdata.UserdataEntity;
-import guru.qa.rococo.data.repository.UserdataUserRepository;
+import guru.qa.rococo.data.repository.UserdataRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 import static guru.qa.rococo.data.jpa.EntityManagers.em;
 
 @ParametersAreNonnullByDefault
-public class UserdataRepositoryHibernate implements UserdataUserRepository {
+public class UserdataRepositoryHibernate implements UserdataRepository {
 
     private static final Config CFG = Config.getInstance();
 

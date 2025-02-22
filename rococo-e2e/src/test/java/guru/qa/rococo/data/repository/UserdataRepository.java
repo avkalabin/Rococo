@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @ParametersAreNonnullByDefault
-public interface UserdataUserRepository {
+public interface UserdataRepository {
 
     @Nonnull
     UserdataEntity create(UserdataEntity user);
