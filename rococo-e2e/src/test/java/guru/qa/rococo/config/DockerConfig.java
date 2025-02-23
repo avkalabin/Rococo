@@ -2,8 +2,6 @@ package guru.qa.rococo.config;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-
 public enum DockerConfig implements Config {
     INSTANCE;
 
@@ -27,7 +25,31 @@ public enum DockerConfig implements Config {
 
     @NotNull
     @Override
+    public String artistJdbcUrl() {
+        return "";
+    }
+
+    @NotNull
+    @Override
     public String authJdbcUrl() {
+        return "";
+    }
+
+    @NotNull
+    @Override
+    public String geoJdbcUrl() {
+        return "";
+    }
+
+    @NotNull
+    @Override
+    public String museumJdbcUrl() {
+        return "";
+    }
+
+    @NotNull
+    @Override
+    public String paintingJdbcUrl() {
         return "";
     }
 

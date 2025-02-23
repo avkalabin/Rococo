@@ -2,8 +2,6 @@ package guru.qa.rococo.config;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-
 public enum LocalConfig implements Config {
     INSTANCE;
 
@@ -27,8 +25,32 @@ public enum LocalConfig implements Config {
 
     @NotNull
     @Override
+    public String artistJdbcUrl() {
+        return "jdbc:mysql://127.0.0.1:3306/rococo-artist";
+    }
+
+    @NotNull
+    @Override
     public String authJdbcUrl() {
-            return "jdbc:mysql://127.0.0.1:3306/rococo-auth";
+        return "jdbc:mysql://127.0.0.1:3306/rococo-auth";
+    }
+
+    @NotNull
+    @Override
+    public String geoJdbcUrl() {
+        return "jdbc:mysql://127.0.0.1:3306/rococo-geo";
+    }
+
+    @NotNull
+    @Override
+    public String museumJdbcUrl() {
+        return "jdbc:mysql://127.0.0.1:3306/rococo-museum";
+    }
+
+    @NotNull
+    @Override
+    public String paintingJdbcUrl() {
+        return "jdbc:mysql://127.0.0.1:3306/rococo-painting";
     }
 
     @NotNull

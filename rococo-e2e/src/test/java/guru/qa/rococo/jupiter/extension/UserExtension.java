@@ -19,11 +19,9 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
     public void beforeEach(ExtensionContext context) throws Exception {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), User.class)
                 .ifPresent(userAnno -> {
-                    if ("".equals(userAnno.username())) {
-                        final String username = RandomDataUtils.randomUsername();
+                        String username = userAnno.username().isEmpty() ? RandomDataUtils.randomUsername() : userAnno.username();
                         UserJson testUser = usersClient.createUser(username, defaultPassword);
                         setUser(testUser);
-                    }
                 });
     }
 

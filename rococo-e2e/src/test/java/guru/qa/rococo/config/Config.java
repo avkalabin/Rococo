@@ -29,7 +29,19 @@ public interface Config {
     String authUrl();
 
     @Nonnull
+    String artistJdbcUrl();
+
+    @Nonnull
     String authJdbcUrl();
+
+    @Nonnull
+    String geoJdbcUrl();
+
+    @Nonnull
+    String museumJdbcUrl();
+
+    @Nonnull
+    String paintingJdbcUrl();
 
     @Nonnull
     String userdataJdbcUrl();

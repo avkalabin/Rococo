@@ -1,13 +1,13 @@
 package guru.qa.rococo.service;
 
-import guru.qa.rococo.model.UserJson;
+import guru.qa.rococo.model.CountryJson;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public interface UsersClient {
+public interface GeoClient {
 
     @Nonnull
-    UserJson createUser(String username, String password);
+    CountryJson getCountryByName(String countryName);
 }

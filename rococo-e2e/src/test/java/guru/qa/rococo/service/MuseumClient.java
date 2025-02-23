@@ -1,13 +1,14 @@
 package guru.qa.rococo.service;
 
-import guru.qa.rococo.model.UserJson;
+import guru.qa.rococo.model.MuseumJson;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public interface UsersClient {
+public interface MuseumClient {
 
     @Nonnull
-    UserJson createUser(String username, String password);
+    MuseumJson createMuseum(MuseumJson museum);
+
 }

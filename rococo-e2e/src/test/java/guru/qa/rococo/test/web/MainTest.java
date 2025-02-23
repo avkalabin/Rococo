@@ -2,8 +2,7 @@ package guru.qa.rococo.test.web;
 
 import com.codeborne.selenide.Selenide;
 import guru.qa.rococo.config.Config;
-import guru.qa.rococo.jupiter.annotation.ApiLogin;
-import guru.qa.rococo.jupiter.annotation.User;
+import guru.qa.rococo.jupiter.annotation.*;
 import guru.qa.rococo.jupiter.annotation.meta.WebTest;
 import guru.qa.rococo.page.MainPage;
 import org.junit.jupiter.api.Test;
@@ -17,10 +16,13 @@ public class MainTest {
 
     @ApiLogin(username = "qwe", password = "111")
     @Test
+    @Artist(name = "Рома")
+    @Museum(title = "Современный музей", country = "Россия", city = "Москва")
+    @Painting(title = "Первая работа", description = "Рисунок сделанный в детском саду")
     void mainPageShouldBeOpened() {
 
         Selenide.open(CFG.frontUrl(), MainPage.class)
                 .checkThatPageLoaded();
-        sleep(20000);
+        sleep(10000);
     }
 }
