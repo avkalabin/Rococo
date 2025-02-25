@@ -12,7 +12,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 public class ArtistExtension implements BeforeEachCallback, ParameterResolver {
 
     public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(ArtistExtension.class);
-    private static final String ARTIST_PHOTO_PATH = "images/artist.jpg";
+    private static final String ARTIST_PHOTO_PATH = "img/artist.jpg";
     private final ArtistClient artistClient = new ArtistDbClient();
 
     @Override

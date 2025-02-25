@@ -14,7 +14,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 public class PaintingExtension implements BeforeEachCallback, ParameterResolver {
 
     private final static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(PaintingExtension.class);
-    private final static String PAINTING_PHOTO_PATH = "images/painting.jpg";
+    private final static String PAINTING_PHOTO_PATH = "img/painting.jpg";
 
     private final PaintingClient paintingClient = new PaintingDbClient();
 

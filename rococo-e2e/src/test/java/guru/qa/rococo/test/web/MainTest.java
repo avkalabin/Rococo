@@ -12,7 +12,6 @@ import static com.codeborne.selenide.Selenide.sleep;
 @WebTest()
 public class MainTest {
 
-    private static final Config CFG = Config.getInstance();
 
     @ApiLogin(username = "qwe", password = "111")
     @Test
@@ -21,7 +20,7 @@ public class MainTest {
     @Painting(title = "Первая работа", description = "Рисунок сделанный в детском саду")
     void mainPageShouldBeOpened() {
 
-        Selenide.open(CFG.frontUrl(), MainPage.class)
+        Selenide.open(MainPage.URL, MainPage.class)
                 .checkThatPageLoaded();
         sleep(10000);
     }

@@ -15,7 +15,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 public class MuseumExtension implements BeforeEachCallback, ParameterResolver {
 
     public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(MuseumExtension.class);
-    private static final String MUSEUM_PHOTO_PATH = "images/museum.jpg";
+    private static final String MUSEUM_PHOTO_PATH = "img/museum.jpg";
     private final GeoClient geoClient = new GeoDbClient();
     private final MuseumClient museumClient = new MuseumDbClient();
 
