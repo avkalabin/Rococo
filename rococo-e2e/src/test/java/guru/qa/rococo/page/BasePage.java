@@ -11,6 +11,8 @@ import io.qameta.allure.Step;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
@@ -21,7 +23,7 @@ public abstract class BasePage<T extends BasePage<?>> {
 
     protected final Header header = new Header();
 
-//    private final SelenideElement alert = $(".MuiSnackbar-root");
+  private final SelenideElement alert = $(".toast");
 //    private final ElementsCollection formErrors = $$("p.Mui-error, .input__helper-text");
 
     public Header getHeader() {
@@ -30,13 +32,15 @@ public abstract class BasePage<T extends BasePage<?>> {
 
     public abstract T checkThatPageLoaded();
 
-//    @Step("Check that alert message appears: {expectedText}")
-//    @SuppressWarnings("unchecked")
-//    @Nonnull
-//    public T checkAlertMessage(String expectedText) {
-//        alert.should(Condition.visible).should(Condition.text(expectedText));
-//        return (T) this;
-//    }
+
+
+    @Step("Check that alert message appears: {expectedText}")
+    @SuppressWarnings("unchecked")
+    @Nonnull
+    public T checkAlertMessage(String expectedText) {
+        alert.should(Condition.visible).should(Condition.text(expectedText));
+        return (T) this;
+    }
 //
 //    @Step("Check that form error message appears: {expectedText}")
 //    @SuppressWarnings("unchecked")
