@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Navigation web tests")
 public class NavigateWebTest {
 
-    @DisplayName("General navigation test")
     @Test
+    @DisplayName("General navigation test")
     public void generalNavigationTest() {
         Selenide.open(MainPage.URL, MainPage.class)
                 .getHeader()
@@ -28,8 +28,9 @@ public class NavigateWebTest {
                 .checkThatPageLoaded();
     }
 
-    @DisplayName("Toggle dark mode test")
+
     @Test
+    @DisplayName("Toggle dark mode test")
     public void toggleDarkModeTest() {
         Selenide.open(MainPage.URL, MainPage.class)
                 .checkThatPageInLightMode()

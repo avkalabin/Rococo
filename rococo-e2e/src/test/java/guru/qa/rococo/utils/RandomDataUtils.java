@@ -15,8 +15,23 @@ public class RandomDataUtils {
     private static final Random random = new Random();
 
     @Nonnull
+    public static String generateRandomWord(Integer charsCount) {
+        return faker.lorem().characters(charsCount);
+    }
+
+    @Nonnull
     public static String randomUsername() {
         return faker.name().username();
+    }
+
+    @Nonnull
+    public static String generateRandomPassword(Integer minLength, Integer maxLength) {
+        return faker.internet().password(minLength, maxLength);
+    }
+
+    @Nonnull
+    public static String generateRandomPassword() {
+        return generateRandomPassword(5, 12);
     }
 
     @Nonnull

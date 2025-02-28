@@ -19,6 +19,7 @@ public class LoginPage extends BasePage<LoginPage> {
   private final SelenideElement registerButton = $("a[href='/register']");
   private final SelenideElement errorContainer = $(".form__error");
 
+  @Step("Do register")
   @Nonnull
   public RegisterPage doRegister() {
     registerButton.click();

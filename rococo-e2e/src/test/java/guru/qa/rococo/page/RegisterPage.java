@@ -17,7 +17,7 @@ public class RegisterPage extends BasePage<RegisterPage> {
   private final SelenideElement passwordInput = $("input[name='password']");
   private final SelenideElement passwordSubmitInput = $("input[name='passwordSubmit']");
   private final SelenideElement submitButton = $("button[type='submit']");
-  private final SelenideElement proceedLoginButton = $(".form_sign-in");
+  private final SelenideElement proceedLoginButton = $(".form__submit");
   private final SelenideElement errorContainer = $(".form__error");
 
   @Step("Fill register page with credentials: username: {0}, password: {1}, submit password: {2}")
@@ -52,10 +52,10 @@ public class RegisterPage extends BasePage<RegisterPage> {
 
   @Step("Submit register")
   @Nonnull
-  public LoginPage successSubmit() {
+  public MainPage successSubmit() {
     submitButton.click();
     proceedLoginButton.click();
-    return new LoginPage();
+    return new MainPage();
   }
 
   @Step("Submit register")
