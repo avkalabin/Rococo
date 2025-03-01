@@ -1,4 +1,116 @@
 package guru.qa.rococo.test.web;
 
+import com.codeborne.selenide.Selenide;
+import guru.qa.rococo.data.entity.artist.ArtistEntity;
+import guru.qa.rococo.data.repository.ArtistRepository;
+import guru.qa.rococo.data.repository.impl.ArtistRepositoryHibernate;
+import guru.qa.rococo.jupiter.annotation.*;
+import guru.qa.rococo.jupiter.annotation.meta.WebTest;
+import guru.qa.rococo.model.ArtistJson;
+import guru.qa.rococo.model.PaintingJson;
+import guru.qa.rococo.model.UserJson;
+import guru.qa.rococo.page.artist.ArtistDetailPage;
+import guru.qa.rococo.page.artist.ArtistPage;
+import guru.qa.rococo.page.MainPage;
+import guru.qa.rococo.utils.ImgUtils;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
+
+import static com.codeborne.selenide.Selenide.sleep;
+import static guru.qa.rococo.utils.CustomAssert.check;
+import static guru.qa.rococo.utils.RandomDataUtils.randomBiography;
+import static guru.qa.rococo.utils.RandomDataUtils.randomUsername;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.hamcrest.CoreMatchers.equalTo;
+
+@WebTest
+@DisplayName("Artist web test")
 public class ArtistWebTest {
+
+    private ArtistRepository artistRepository = new ArtistRepositoryHibernate();
+
+    @Test
+    @User
+    @ApiLogin
+    @DisplayName("Should be able to add new artist")
+    void shouldAddNewArtist(@NotNull UserJson user) {
+        final String name = randomUsername();
+        final String biography = randomBiography();
+        final String PHOTO_ARTIST = "img/artist.jpg";
+
+        ArtistPage artistPage = Selenide.open(MainPage.URL, MainPage.class)
+                .getHeader()
+                .toArtistPage();
+        artistPage.checkThatPageLoaded()
+                .addNewArtist()
+                .setName(name)
+                .setBiography(biography)
+                .setPhoto(PHOTO_ARTIST)
+                .successSubmitModal();
+        artistPage
+                .checkAlertMessage("Добавлен художник: " + name)
+                .checkThatPageLoaded()
+                .getSearchField()
+                .search(name);
+        artistPage.checkArtistIsExist(name);
+    }
+
+    @Test
+    @User
+    @ApiLogin
+    @Artist
+    @DisplayName("Should be able to edit artist")
+    void shouldEditArtist(@NotNull ArtistJson artist) {
+        final String newName = randomUsername();
+        final String newBiography = randomBiography();
+        final String PHOTO_ARTIST_NEW = "img/artist_new.jpg";
+
+        ArtistPage artistPage = Selenide.open(MainPage.URL, MainPage.class)
+                .getHeader()
+                .toArtistPage();
+        artistPage.checkThatPageLoaded()
+                .getSearchField()
+                .search(artist.name());
+        artistPage.clickOnArtist(artist.name())
+                .editArtist()
+                .setName(newName)
+                .setBiography(newBiography)
+                .setPhoto(PHOTO_ARTIST_NEW)
+                .successSubmitModal();
+        artistPage
+                .checkAlertMessage("Обновлен художник: " + newName);
+
+        ArtistEntity artistEntity = artistRepository.findArtistById(artist.id());
+        check("expected new name in db",
+                artistEntity.getName(), equalTo(newName));
+        check("expected new biography in db",
+                artistEntity.getBiography(), equalTo(newBiography));
+        check("expected new photo in db",
+                new String(artistEntity.getPhoto(), UTF_8),
+                equalTo(ImgUtils.convertImageToBase64(PHOTO_ARTIST_NEW))
+        );
+    }
+
+    @Test
+    @User
+    @ApiLogin
+    @Artist
+    @Museum
+    @Painting
+    @DisplayName("On the artist detail page, the artist's painting is displayed")
+    void artistPaintingShouldBeDisplayedOnArtistDetailPage(@NotNull PaintingJson paintingJson) {
+        UUID artistId = paintingJson.artist().id();
+        ArtistDetailPage artistDetailPage = new ArtistDetailPage(artistId.toString());
+
+        artistDetailPage
+                .openPage()
+                .checkThatPageLoaded()
+                .openPaintingCard(paintingJson.title())
+                .checkThatPageLoaded();
+        sleep(3000);
+    }
+
 }

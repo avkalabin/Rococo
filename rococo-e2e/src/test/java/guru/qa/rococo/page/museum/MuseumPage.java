@@ -1,21 +1,20 @@
-package guru.qa.rococo.page;
+package guru.qa.rococo.page.museum;
 
-import com.codeborne.selenide.SelenideElement;
+import guru.qa.rococo.page.BasePage;
 import io.qameta.allure.Step;
 
 import javax.annotation.Nonnull;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.$;
 
 public class MuseumPage extends BasePage<MuseumPage> {
 
-    private final SelenideElement pageContent = $("#page-content");
+    public static final String URL = CFG.authUrl() + "museum";
 
     @Step("Check that museum page is loaded")
     @Override
     @Nonnull
-    public MuseumPage  checkThatPageLoaded() {
+    public MuseumPage checkThatPageLoaded() {
         pageContent.shouldHave(text("Художники"));
         return this;
     }

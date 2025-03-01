@@ -58,13 +58,6 @@ public class RegisterPage extends BasePage<RegisterPage> {
     return new MainPage();
   }
 
-  @Step("Submit register")
-  @Nonnull
-  public RegisterPage errorSubmit() {
-    submitButton.click();
-    return this;
-  }
-
   @Step("Check that page is loaded")
   @Override
   @Nonnull

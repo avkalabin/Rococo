@@ -6,6 +6,8 @@ import guru.qa.rococo.data.repository.ArtistRepository;
 import jakarta.persistence.EntityManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 import static guru.qa.rococo.data.jpa.EntityManagers.em;
 
 public class ArtistRepositoryHibernate implements ArtistRepository {
@@ -20,5 +22,11 @@ public class ArtistRepositoryHibernate implements ArtistRepository {
         entityManager.joinTransaction();
         entityManager.persist(artist);
         return artist;
+    }
+
+    @NotNull
+    @Override
+    public ArtistEntity findArtistById(@NotNull UUID id) {
+      return entityManager.find(ArtistEntity.class, id);
     }
 }

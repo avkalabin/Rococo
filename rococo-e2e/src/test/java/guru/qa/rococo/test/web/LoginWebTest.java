@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import static guru.qa.rococo.utils.RandomDataUtils.randomUsername;
 
 @WebTest
+@DisplayName("Login web test")
 public class LoginWebTest {
 
     @User

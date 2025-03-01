@@ -1,11 +1,8 @@
-package guru.qa.rococo.page.modal;
+package guru.qa.rococo.page;
 
 import com.codeborne.selenide.SelenideElement;
-import guru.qa.rococo.page.BasePage;
-import guru.qa.rococo.page.MainPage;
 import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byTagAndText;
 import static com.codeborne.selenide.Selenide.$;
@@ -16,6 +13,8 @@ public class ProfileModal extends BasePage<ProfileModal> {
     private final SelenideElement logoutBtn = $(byTagAndText("button", "Выйти"));
 
 
+
+    @Step("Check that profile modal loaded")
     @Override
     public ProfileModal checkThatPageLoaded() {
         pageTitle.shouldBe(visible);

@@ -1,14 +1,18 @@
 package guru.qa.rococo.test.web;
 
 import com.codeborne.selenide.Selenide;
+import guru.qa.rococo.jupiter.annotation.User;
 import guru.qa.rococo.jupiter.annotation.meta.WebTest;
+import guru.qa.rococo.model.UserJson;
 import guru.qa.rococo.page.MainPage;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static guru.qa.rococo.utils.RandomDataUtils.*;
 
 @WebTest
+@DisplayName("Registration web test")
 public class RegistrationWebTest {
 
     @Test
@@ -30,18 +34,17 @@ public class RegistrationWebTest {
     }
 
     @Test
+    @User
     @DisplayName("User cannot register with existing username")
-    void shouldNotRegisterUserWithExistingUsername() {
-        String existingUsername = "qwe";
-        String password = "111";
+    void shouldNotRegisterUserWithExistingUsername(@NotNull UserJson user) {
 
         Selenide.open(MainPage.URL, MainPage.class)
                 .getHeader()
                 .toLoginPage()
                 .doRegister()
-                .fillRegisterPage(existingUsername, password, password)
+                .fillRegisterPage(user.username(), user.testData().password(), user.testData().password())
                 .errorSubmit()
-                .checkAlertMessage("Username `" + existingUsername + "` already exists");
+                .checkAlertMessage("Username `" + user.username() + "` already exists");
     }
 
     @Test

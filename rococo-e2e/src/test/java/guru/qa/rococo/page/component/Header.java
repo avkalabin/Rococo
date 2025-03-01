@@ -2,7 +2,10 @@ package guru.qa.rococo.page.component;
 
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.page.*;
-import guru.qa.rococo.page.modal.ProfileModal;
+import guru.qa.rococo.page.ProfileModal;
+import guru.qa.rococo.page.artist.ArtistPage;
+import guru.qa.rococo.page.museum.MuseumPage;
+import guru.qa.rococo.page.painting.PaintingPage;
 import io.qameta.allure.Step;
 
 import javax.annotation.Nonnull;
