@@ -6,6 +6,7 @@ import io.qameta.allure.Step;
 
 import javax.annotation.Nonnull;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byTagAndText;
 import static com.codeborne.selenide.Selenide.$;
@@ -33,9 +34,9 @@ public class ArtistPage extends BasePage<ArtistPage> {
         return new ArtistModal();
     }
 
-    @Step("Check that artist {name} is exist")
-    public ArtistPage checkArtistIsExist(String name) {
-        artistList.shouldHave(text(name));
+    @Step("Check that artist list have {text}")
+    public ArtistPage checkArtistListHave(String text) {
+        artistList.shouldHave(text(text));
         return this;
     }
 
@@ -44,5 +45,13 @@ public class ArtistPage extends BasePage<ArtistPage> {
         $(byTagAndText("span", artistName)).click();
         return new ArtistDetailPage();
     }
+
+    @Step("Artist list should have {size} artists")
+    public ArtistPage checkArtistListSize(int size) {
+        artistList.$$("li").shouldHave(size(size));
+        return this;
+    }
+
+
 
 }

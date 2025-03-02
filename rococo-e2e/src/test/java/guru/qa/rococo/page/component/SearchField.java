@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import static com.codeborne.selenide.Selenide.$;
 
 public class SearchField extends BaseComponent<SearchField> {
+
   public SearchField(@Nonnull SelenideElement self) {
     super(self);
   }
@@ -15,7 +16,6 @@ public class SearchField extends BaseComponent<SearchField> {
   public SearchField() {
     super($("input[type='search']"));
   }
-
 
   @Step("Perform search for query {query}")
   @Nonnull

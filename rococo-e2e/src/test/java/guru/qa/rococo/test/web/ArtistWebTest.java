@@ -7,22 +7,20 @@ import guru.qa.rococo.data.repository.impl.ArtistRepositoryHibernate;
 import guru.qa.rococo.jupiter.annotation.*;
 import guru.qa.rococo.jupiter.annotation.meta.WebTest;
 import guru.qa.rococo.model.ArtistJson;
+import guru.qa.rococo.model.MuseumJson;
 import guru.qa.rococo.model.PaintingJson;
 import guru.qa.rococo.model.UserJson;
+import guru.qa.rococo.page.MainPage;
 import guru.qa.rococo.page.artist.ArtistDetailPage;
 import guru.qa.rococo.page.artist.ArtistPage;
-import guru.qa.rococo.page.MainPage;
 import guru.qa.rococo.utils.ImgUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static com.codeborne.selenide.Selenide.sleep;
 import static guru.qa.rococo.utils.CustomAssert.check;
-import static guru.qa.rococo.utils.RandomDataUtils.randomBiography;
-import static guru.qa.rococo.utils.RandomDataUtils.randomUsername;
+import static guru.qa.rococo.utils.RandomDataUtils.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.equalTo;
 
@@ -55,7 +53,7 @@ public class ArtistWebTest {
                 .checkThatPageLoaded()
                 .getSearchField()
                 .search(name);
-        artistPage.checkArtistIsExist(name);
+        artistPage.checkArtistListHave(name);
     }
 
     @Test
@@ -101,9 +99,8 @@ public class ArtistWebTest {
     @Museum
     @Painting
     @DisplayName("On the artist detail page, the artist's painting is displayed")
-    void artistPaintingShouldBeDisplayedOnArtistDetailPage(@NotNull PaintingJson paintingJson) {
-        UUID artistId = paintingJson.artist().id();
-        ArtistDetailPage artistDetailPage = new ArtistDetailPage(artistId.toString());
+    void artistPaintingShouldBeDisplayedOnArtistDetailPage(@NotNull PaintingJson paintingJson, @NotNull ArtistJson artist) {
+        ArtistDetailPage artistDetailPage = new ArtistDetailPage(artist.id().toString());
 
         artistDetailPage
                 .openPage()
@@ -113,4 +110,82 @@ public class ArtistWebTest {
         sleep(3000);
     }
 
+    @Test
+    @ApiLogin(username = "qwe", password = "111")
+    @Artist
+    @Museum
+    @DisplayName("Should be able to add new painting from artist detail page")
+    void shouldAddNewPaintingFromArtistDetailPage(@NotNull ArtistJson artist, @NotNull MuseumJson museum) {
+
+        final String PHOTO_PAINTING = "img/painting.jpg";
+        final String title = randomPaintingTitle();
+        final String description = randomDescription();
+
+        ArtistDetailPage artistDetailPage = new ArtistDetailPage(artist.id().toString());
+        artistDetailPage
+                .openPage()
+                .addNewPainting()
+                .checkThatPageLoaded()
+                .setTitle(title)
+                .setPhoto(PHOTO_PAINTING)
+                .setDescription(description)
+                .selectMuseum(museum.title())
+                .successSubmitModal();
+        artistDetailPage
+                .checkAlertMessage("Добавлена картина: " + title)
+                .openPaintingCard(title)
+                .checkThatPageLoaded();
+    }
+
+    @Test
+    @User
+    @ApiLogin
+    @Artist
+    @DisplayName("Should show one artist after filter")
+    void shouldShowOneArtistAfterFilter(@NotNull ArtistJson artist) {
+        ArtistPage artistPage = Selenide.open(MainPage.URL, MainPage.class)
+                .getHeader()
+                .toArtistPage();
+        artistPage.checkThatPageLoaded()
+                .getSearchField()
+                .search(artist.name());
+        sleep(3000);
+        artistPage.checkArtistListSize(1);
+    }
+
+    @Test
+    @User
+    @ApiLogin
+    @DisplayName("Notification should be displayed when artists are not found")
+    void shouldShowNotificationWhenArtistsNotFound() {
+
+        ArtistPage artistPage = Selenide.open(MainPage.URL, MainPage.class)
+                .getHeader()
+                .toArtistPage();
+        artistPage.getSearchField()
+                .search(randomUsername());
+        artistPage.checkArtistListHave("Художники не найдены")
+                .checkArtistListHave("Для указанного вами фильтра мы не смогли найти художников");
+    }
+
+    @Test
+    @User
+    @ApiLogin
+    @DisplayName("Should show error if artist name and biography is large than maximal characters count")
+    void shouldShowErrorIfArtistNameAndBiographyIsLargeThanMaximalCharactersCount() {
+        final String longWord = generateRandomWord(256);
+        final String veryLongWord = generateRandomWord(2001);
+        final String PHOTO_ARTIST = "img/artist.jpg";
+
+        Selenide.open(MainPage.URL, MainPage.class)
+                .getHeader()
+                .toArtistPage()
+                .addNewArtist()
+                .setName(longWord)
+                .setPhoto(PHOTO_ARTIST)
+                .setBiography(veryLongWord)
+                .errorSubmit()
+                .checkNameError("Имя не может быть длиннее 255 символов")
+                .checkBiographyError("Биография не может быть длиннее 2000 символов");
+    }
 }

@@ -1,6 +1,7 @@
 package guru.qa.rococo.page;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.config.Config;
 import guru.qa.rococo.page.component.Header;
@@ -11,8 +12,10 @@ import lombok.Getter;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selenide.*;
 
 @ParametersAreNonnullByDefault
 public abstract class BasePage<T extends BasePage<?>> {
@@ -28,6 +31,7 @@ public abstract class BasePage<T extends BasePage<?>> {
     private final SelenideElement submitFormButton = $("button[type=submit]");
     protected final SelenideElement pageContent = $("#page-content");
     protected final SelenideElement modalPage = $("[data-testid=modal-component]");
+
 //    private final ElementsCollection formErrors = $$("p.Mui-error, .input__helper-text");
 
     public abstract T checkThatPageLoaded();
@@ -51,6 +55,15 @@ public abstract class BasePage<T extends BasePage<?>> {
     public T checkAlertMessage(String expectedText) {
         alert.should(Condition.visible).should(Condition.text(expectedText));
         return (T) this;
+    }
+
+
+    public void scrollToElement(String option, ElementsCollection options) {
+        SelenideElement requiredOption = options.find(text(option));
+        while (!requiredOption.is(visible)) {
+            options.last().scrollIntoView(true);
+            sleep(1000);
+        }
     }
 //
 //    @Step("Check that form error message appears: {expectedText}")

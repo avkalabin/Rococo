@@ -18,6 +18,7 @@ public class ArtistDetailPage extends BasePage<ArtistDetailPage> {
     private final SelenideElement biography = $(".col-span-2");
     private final SelenideElement photo = $("[data-testid=avatar]");
     private final SelenideElement editArtist = $("[data-testid=edit-artist]");
+    private final SelenideElement addPaintingButton = $(".ml-4");
 
     public ArtistDetailPage(String artistId) {
         this.artistId = artistId;
@@ -56,6 +57,12 @@ public class ArtistDetailPage extends BasePage<ArtistDetailPage> {
     public PaintingDetailPage openPaintingCard(String title) {
         $(byTagAndText("div", title)).click();
         return new PaintingDetailPage();
+    }
+
+    @Step("Add new painting")
+    public PaintingModal addNewPainting() {
+        addPaintingButton.click();
+        return new PaintingModal();
     }
 
 }
