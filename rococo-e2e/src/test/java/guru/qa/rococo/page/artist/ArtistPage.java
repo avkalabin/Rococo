@@ -16,7 +16,7 @@ public class ArtistPage extends BasePage<ArtistPage> {
     public static final String URL = CFG.authUrl() + "artist";
 
     private final SelenideElement pageContent = $("#page-content");
-    private final SelenideElement addNewArtistBtn = $(".btn");
+
     private final SelenideElement artistList = $(".grid-cols-1");
 
 
@@ -26,12 +26,6 @@ public class ArtistPage extends BasePage<ArtistPage> {
     public ArtistPage checkThatPageLoaded() {
         pageContent.shouldHave(text("Художники"));
         return this;
-    }
-
-    @Step("Add new artist")
-    public ArtistModal addNewArtist() {
-        addNewArtistBtn.click();
-        return new ArtistModal();
     }
 
     @Step("Check that artist list have {text}")
@@ -46,7 +40,7 @@ public class ArtistPage extends BasePage<ArtistPage> {
         return new ArtistDetailPage();
     }
 
-    @Step("Artist list should have {size} artists")
+    @Step("Artist list should have {size} artist")
     public ArtistPage checkArtistListSize(int size) {
         artistList.$$("li").shouldHave(size(size));
         return this;

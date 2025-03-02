@@ -3,11 +3,9 @@ package guru.qa.rococo.page.artist;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.page.BasePage;
-import guru.qa.rococo.page.painting.PaintingDetailPage;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byTagAndText;
 import static com.codeborne.selenide.Selenide.$;
 
 public class ArtistDetailPage extends BasePage<ArtistDetailPage> {
@@ -17,8 +15,8 @@ public class ArtistDetailPage extends BasePage<ArtistDetailPage> {
     private final SelenideElement name = $(".card-header");
     private final SelenideElement biography = $(".col-span-2");
     private final SelenideElement photo = $("[data-testid=avatar]");
-    private final SelenideElement editArtist = $("[data-testid=edit-artist]");
-    private final SelenideElement addPaintingButton = $(".ml-4");
+    private final SelenideElement editArtistBtn = $("[data-testid=edit-artist]");
+
 
     public ArtistDetailPage(String artistId) {
         this.artistId = artistId;
@@ -49,20 +47,11 @@ public class ArtistDetailPage extends BasePage<ArtistDetailPage> {
 
     @Step("Edit artist")
     public ArtistModal editArtist() {
-        editArtist.click();
+        editArtistBtn.click();
         return new ArtistModal();
     }
 
-    @Step("Open painting card with title: {title}")
-    public PaintingDetailPage openPaintingCard(String title) {
-        $(byTagAndText("div", title)).click();
-        return new PaintingDetailPage();
-    }
 
-    @Step("Add new painting")
-    public PaintingModal addNewPainting() {
-        addPaintingButton.click();
-        return new PaintingModal();
-    }
+
 
 }

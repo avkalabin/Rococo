@@ -14,7 +14,7 @@ public class PaintingDetailPage extends BasePage<PaintingDetailPage> {
     private final String paintingId;
     private final SelenideElement title = $(".card-header");
     private final SelenideElement photo = $(".my-4");
-    private final SelenideElement editButton = $("[data-testid=edit-painting]");
+    private final SelenideElement editPaintingButton = $("[data-testid=edit-painting]");
 
     public PaintingDetailPage(String paintingId) {
         this.paintingId = paintingId;
@@ -34,10 +34,17 @@ public class PaintingDetailPage extends BasePage<PaintingDetailPage> {
         return this;
     }
 
+    @Step("Check that painting detail page is loaded")
     @Override
     public PaintingDetailPage checkThatPageLoaded() {
         title.shouldBe(visible);
         photo.shouldBe(visible);
         return this;
+    }
+
+    @Step("Edit painting")
+    public PaintingModal editPainting() {
+        editPaintingButton.click();
+        return new PaintingModal();
     }
 }

@@ -1,8 +1,9 @@
-package guru.qa.rococo.page.artist;
+package guru.qa.rococo.page.painting;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.page.BasePage;
+import guru.qa.rococo.page.artist.ArtistModal;
 import guru.qa.rococo.page.component.Input;
 import io.qameta.allure.Step;
 
@@ -34,7 +35,7 @@ public class PaintingModal extends BasePage<PaintingModal> {
     }
 
     @Step("Set painting photo")
-    public PaintingModal setPhoto(String filepath) {
+    public PaintingModal setContent(String filepath) {
         photoInput.uploadFromClasspath(filepath);
         return this;
     }
@@ -42,6 +43,7 @@ public class PaintingModal extends BasePage<PaintingModal> {
 
     @Step("Select painting's artist: {artist}")
     public PaintingModal selectArtist(String artist) {
+        scrollToElement(artist, options);
         artistSelect.selectOption(artist);
         return this;
     }
@@ -56,6 +58,18 @@ public class PaintingModal extends BasePage<PaintingModal> {
     public PaintingModal selectMuseum(String museum) {
         scrollToElement(museum, options);
         museumSelect.selectOption(museum);
+        return this;
+    }
+
+    @Step("Check title error is: {error}")
+    public PaintingModal checkTitleError(String error) {
+        titleInput.checkError(error);
+        return this;
+    }
+
+    @Step("Check description error is: {error}")
+    public PaintingModal checkDescriptionError(String error) {
+        descriptionInput.checkError(error);
         return this;
     }
 }

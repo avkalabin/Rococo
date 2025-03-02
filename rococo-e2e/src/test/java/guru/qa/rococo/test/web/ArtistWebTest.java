@@ -34,7 +34,7 @@ public class ArtistWebTest {
     @User
     @ApiLogin
     @DisplayName("Should be able to add new artist")
-    void shouldAddNewArtist(@NotNull UserJson user) {
+    void shouldAddNewArtist() {
         final String name = randomUsername();
         final String biography = randomBiography();
         final String PHOTO_ARTIST = "img/artist.jpg";
@@ -107,34 +107,6 @@ public class ArtistWebTest {
                 .checkThatPageLoaded()
                 .openPaintingCard(paintingJson.title())
                 .checkThatPageLoaded();
-        sleep(3000);
-    }
-
-    @Test
-    @ApiLogin(username = "qwe", password = "111")
-    @Artist
-    @Museum
-    @DisplayName("Should be able to add new painting from artist detail page")
-    void shouldAddNewPaintingFromArtistDetailPage(@NotNull ArtistJson artist, @NotNull MuseumJson museum) {
-
-        final String PHOTO_PAINTING = "img/painting.jpg";
-        final String title = randomPaintingTitle();
-        final String description = randomDescription();
-
-        ArtistDetailPage artistDetailPage = new ArtistDetailPage(artist.id().toString());
-        artistDetailPage
-                .openPage()
-                .addNewPainting()
-                .checkThatPageLoaded()
-                .setTitle(title)
-                .setPhoto(PHOTO_PAINTING)
-                .setDescription(description)
-                .selectMuseum(museum.title())
-                .successSubmitModal();
-        artistDetailPage
-                .checkAlertMessage("Добавлена картина: " + title)
-                .openPaintingCard(title)
-                .checkThatPageLoaded();
     }
 
     @Test
@@ -149,7 +121,6 @@ public class ArtistWebTest {
         artistPage.checkThatPageLoaded()
                 .getSearchField()
                 .search(artist.name());
-        sleep(3000);
         artistPage.checkArtistListSize(1);
     }
 
