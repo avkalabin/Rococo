@@ -1,24 +1,24 @@
 package guru.qa.rococo.page;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.config.Config;
 import guru.qa.rococo.page.artist.ArtistModal;
-import guru.qa.rococo.page.painting.PaintingModal;
 import guru.qa.rococo.page.component.Header;
 import guru.qa.rococo.page.component.SearchField;
 import guru.qa.rococo.page.painting.PaintingDetailPage;
+import guru.qa.rococo.page.painting.PaintingModal;
 import io.qameta.allure.Step;
 import lombok.Getter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byTagAndText;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unchecked")
@@ -55,19 +55,29 @@ public abstract class BasePage<T extends BasePage<?>> {
     }
 
     @Step("Check that alert message appears: {expectedText}")
-
     @Nonnull
     public T checkAlertMessage(String expectedText) {
-        alert.should(Condition.visible).should(Condition.text(expectedText));
+        alert.should(visible).should(text(expectedText));
         return (T) this;
     }
 
 
     public void scrollToElement(String option, ElementsCollection options) {
-        SelenideElement requiredOption = options.find(text(option));
-        while (!requiredOption.is(visible)) {
-            options.last().scrollIntoView(true);
-            sleep(1000);
+
+        int initialOptionsCount = options.size();
+
+        while (true) {
+            SelenideElement requiredOption = options.find(text(option));
+            if (requiredOption.exists()) {
+                requiredOption.click();
+                return;
+            }
+
+            options.last().scrollIntoView(true).click();
+            options.shouldHave(sizeGreaterThan(initialOptionsCount)
+                    .because("Option with text: '" + option + "' not found. " +
+                            "Timed out waiting for new options to be loaded. Current options count:" + options.size()));
+            initialOptionsCount = options.size();
         }
     }
 

@@ -43,7 +43,8 @@ public class LoginWebTest {
     }
 
     @Test
-    @ApiLogin(username = "qwe", password = "111")
+    @User
+    @ApiLogin
     @DisplayName("User should be able to logout")
     void shouldBeAbleToLogout() {
         Selenide.open(MainPage.URL, MainPage.class)

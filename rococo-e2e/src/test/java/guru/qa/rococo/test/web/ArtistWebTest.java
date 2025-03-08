@@ -7,9 +7,7 @@ import guru.qa.rococo.data.repository.impl.ArtistRepositoryHibernate;
 import guru.qa.rococo.jupiter.annotation.*;
 import guru.qa.rococo.jupiter.annotation.meta.WebTest;
 import guru.qa.rococo.model.ArtistJson;
-import guru.qa.rococo.model.MuseumJson;
 import guru.qa.rococo.model.PaintingJson;
-import guru.qa.rococo.model.UserJson;
 import guru.qa.rococo.page.MainPage;
 import guru.qa.rococo.page.artist.ArtistDetailPage;
 import guru.qa.rococo.page.artist.ArtistPage;
@@ -18,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.sleep;
 import static guru.qa.rococo.utils.CustomAssert.check;
 import static guru.qa.rococo.utils.RandomDataUtils.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -53,7 +50,7 @@ public class ArtistWebTest {
                 .checkThatPageLoaded()
                 .getSearchField()
                 .search(name);
-        artistPage.checkArtistListHave(name);
+        artistPage.checkArtistListHaveText(name);
     }
 
     @Test
@@ -72,7 +69,7 @@ public class ArtistWebTest {
         artistPage.checkThatPageLoaded()
                 .getSearchField()
                 .search(artist.name());
-        artistPage.clickOnArtist(artist.name())
+        artistPage.openArtist(artist.name())
                 .editArtist()
                 .setName(newName)
                 .setBiography(newBiography)
@@ -135,8 +132,8 @@ public class ArtistWebTest {
                 .toArtistPage();
         artistPage.getSearchField()
                 .search(randomUsername());
-        artistPage.checkArtistListHave("Художники не найдены")
-                .checkArtistListHave("Для указанного вами фильтра мы не смогли найти художников");
+        artistPage.checkArtistListHaveText("Художники не найдены")
+                .checkArtistListHaveText("Для указанного вами фильтра мы не смогли найти художников");
     }
 
     @Test

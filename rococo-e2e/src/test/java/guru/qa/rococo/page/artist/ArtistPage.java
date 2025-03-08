@@ -29,13 +29,13 @@ public class ArtistPage extends BasePage<ArtistPage> {
     }
 
     @Step("Check that artist list have {text}")
-    public ArtistPage checkArtistListHave(String text) {
+    public ArtistPage checkArtistListHaveText(String text) {
         artistList.shouldHave(text(text));
         return this;
     }
 
-    @Step("Click on artist")
-    public ArtistDetailPage clickOnArtist(String artistName) {
+    @Step("Open artist card with name: {artistName}")
+    public ArtistDetailPage openArtist(String artistName) {
         $(byTagAndText("span", artistName)).click();
         return new ArtistDetailPage();
     }

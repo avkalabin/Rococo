@@ -6,6 +6,8 @@ import guru.qa.rococo.data.repository.MuseumRepository;
 import jakarta.persistence.EntityManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 import static guru.qa.rococo.data.jpa.EntityManagers.em;
 
 public class MuseumRepositoryHibernate implements MuseumRepository {
@@ -20,5 +22,11 @@ public class MuseumRepositoryHibernate implements MuseumRepository {
         entityManager.joinTransaction();
         entityManager.persist(museum);
         return museum;
+    }
+
+    @NotNull
+    @Override
+    public MuseumEntity findMuseumById(@NotNull UUID id) {
+        return entityManager.find(MuseumEntity.class, id);
     }
 }

@@ -1,6 +1,7 @@
 package guru.qa.rococo.test.web;
 
 import com.codeborne.selenide.Selenide;
+import guru.qa.rococo.data.entity.painting.PaintingEntity;
 import guru.qa.rococo.data.repository.PaintingRepository;
 import guru.qa.rococo.data.repository.impl.PaintingRepositoryHibernate;
 import guru.qa.rococo.jupiter.annotation.*;
@@ -10,19 +11,16 @@ import guru.qa.rococo.model.MuseumJson;
 import guru.qa.rococo.model.PaintingJson;
 import guru.qa.rococo.page.MainPage;
 import guru.qa.rococo.page.artist.ArtistDetailPage;
-import guru.qa.rococo.page.artist.ArtistPage;
 import guru.qa.rococo.page.painting.PaintingDetailPage;
 import guru.qa.rococo.page.painting.PaintingPage;
 import guru.qa.rococo.utils.ImgUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import guru.qa.rococo.data.entity.painting.PaintingEntity;
 
 import static guru.qa.rococo.utils.CustomAssert.check;
 import static guru.qa.rococo.utils.RandomDataUtils.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.UUID.fromString;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 @WebTest
@@ -60,7 +58,8 @@ public class PaintingWebTest {
     }
 
     @Test
-    @ApiLogin(username = "qwe", password = "111")
+    @User
+    @ApiLogin
     @Artist
     @Museum
     @DisplayName("Should be able to add new painting from artist detail page")
@@ -154,8 +153,8 @@ public class PaintingWebTest {
                 .toPaintingPage();
         paintingPage.getSearchField()
                 .search(randomPaintingTitle());
-        paintingPage.checkPaintingListHave("Картины не найдены")
-                .checkPaintingListHave("Для указанного вами фильтра мы не смогли не найти ни одной картины");
+        paintingPage.checkPaintingListHaveText("Картины не найдены")
+                .checkPaintingListHaveText("Для указанного вами фильтра мы не смогли не найти ни одной картины");
     }
 
     @Test

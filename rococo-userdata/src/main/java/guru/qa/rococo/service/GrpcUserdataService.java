@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.transaction.annotation.Transactional;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -31,6 +32,7 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
         this.userRepository = userRepository;
     }
 
+    @Transactional
     @KafkaListener(topics = "users", groupId = "userdata")
     public void listener(@Payload UserJson user, ConsumerRecord<String, UserJson> cr) {
         LOG.info("### Kafka topic [users] received message: " + user.username());

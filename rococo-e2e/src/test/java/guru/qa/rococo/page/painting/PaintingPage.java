@@ -2,7 +2,6 @@ package guru.qa.rococo.page.painting;
 
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.page.BasePage;
-import guru.qa.rococo.page.artist.ArtistPage;
 import io.qameta.allure.Step;
 
 import javax.annotation.Nonnull;
@@ -33,7 +32,7 @@ public class PaintingPage extends BasePage<PaintingPage> {
     }
 
     @Step("Check that painting list have {text}")
-    public PaintingPage checkPaintingListHave(String text) {
+    public PaintingPage checkPaintingListHaveText(String text) {
         paintingList.shouldHave(text(text));
         return this;
     }
