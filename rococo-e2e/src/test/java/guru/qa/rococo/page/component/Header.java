@@ -99,7 +99,7 @@ public class Header extends BaseComponent<Header> {
         return this;
     }
 
-    @Step("Go to \"Profile\" page")
+    @Step("Go to Profile page")
     @Nonnull
     public ProfileModal openProfileModal() {
         avatar.click();

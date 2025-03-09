@@ -29,7 +29,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 @DisplayName("Painting web test")
 public class PaintingWebTest {
 
-    PaintingRepository paintingRepository = new PaintingRepositoryHibernate();
+    private final PaintingRepository paintingRepository = new PaintingRepositoryHibernate();
 
     @Test
     @User

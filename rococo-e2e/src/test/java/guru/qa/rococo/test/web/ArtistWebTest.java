@@ -27,7 +27,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 @DisplayName("Artist web test")
 public class ArtistWebTest {
 
-    private ArtistRepository artistRepository = new ArtistRepositoryHibernate();
+    private final ArtistRepository artistRepository = new ArtistRepositoryHibernate();
 
     @Test
     @User

@@ -31,8 +31,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 @DisplayName("Museum web test")
 public class MuseumWebTest {
 
-    MuseumRepository museumRepository = new MuseumRepositoryHibernate();
-    GeoRepository geoRepository = new GeoRepositoryHibernate();
+    private final MuseumRepository museumRepository = new MuseumRepositoryHibernate();
+    private final GeoRepository geoRepository = new GeoRepositoryHibernate();
 
     @Test
     @User

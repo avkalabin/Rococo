@@ -10,7 +10,7 @@ public class CustomAssert {
 
     public static <T> void check(String description, @NotNull T actual, @NotNull Matcher<? super T> matcher) {
         Allure.step(
-                "Check that, %s. \nExpected: %s \n Actual: %s "
+                "Check %s. \nExpected: %s \n Actual: %s "
                         .formatted(
                                 description,
                                 trimLongString(matcher.toString()),
@@ -21,7 +21,7 @@ public class CustomAssert {
     }
 
     private static String trimLongString(@NotNull String str) {
-        Integer maxLen = 255;
+        int maxLen = 255;
         return str.length() > maxLen
                 ? "%s...".formatted(str.substring(0, maxLen))
                 : str;
