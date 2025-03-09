@@ -4,10 +4,13 @@ import com.github.javafaker.Faker;
 import guru.qa.rococo.data.entity.geo.CountryEntity;
 import guru.qa.rococo.data.repository.GeoRepository;
 import guru.qa.rococo.data.repository.impl.GeoRepositoryHibernate;
+import guru.qa.rococo.model.CountryJson;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
+
+import static guru.qa.rococo.model.CountryJson.fromEntity;
 
 public class RandomDataUtils {
 
@@ -64,12 +67,12 @@ public class RandomDataUtils {
     }
 
     @Nonnull
-    public static synchronized String randomCountry() {
+    public static synchronized CountryJson randomCountry() {
         GeoRepository geoRepository = new GeoRepositoryHibernate();
 
         List<CountryEntity> country = geoRepository.getAllCountry();
         Random random = new Random();
         int randomIndex = random.nextInt(country.size());
-        return country.get(randomIndex).getName();
+        return fromEntity(country.get(randomIndex));
     }
 }

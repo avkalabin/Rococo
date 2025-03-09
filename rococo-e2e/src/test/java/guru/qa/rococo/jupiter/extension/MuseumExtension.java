@@ -24,18 +24,20 @@ public class MuseumExtension implements BeforeEachCallback, ParameterResolver {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Museum.class)
                 .ifPresent(museumAnno -> {
                     String title = museumAnno.title().isEmpty() ? RandomDataUtils.randomMuseumTitle() : museumAnno.title();
-                    String countryName = museumAnno.country().isEmpty() ? RandomDataUtils.randomCountry() : museumAnno.country();
+                    String countryName = museumAnno.country().isEmpty()
+                            ? RandomDataUtils.randomCountry().name()
+                            : museumAnno.country();
                     String city = museumAnno.city().isEmpty() ? RandomDataUtils.randomCity() : museumAnno.city();
 
                     GeoJson geoJson = new GeoJson(city, geoClient.getCountryByName(countryName));
 
                     MuseumJson createdMuseum = museumClient.createMuseum(
-                                    new MuseumJson(
-                                            null,
-                                            title,
-                                            RandomDataUtils.randomDescription(),
-                                            ImgUtils.convertImageToBase64(MUSEUM_PHOTO_PATH),
-                                            geoJson));
+                            new MuseumJson(
+                                    null,
+                                    title,
+                                    RandomDataUtils.randomDescription(),
+                                    ImgUtils.convertImageToBase64(MUSEUM_PHOTO_PATH),
+                                    geoJson));
 
                     context.getStore(NAMESPACE).put(context.getUniqueId(), createdMuseum);
                 });

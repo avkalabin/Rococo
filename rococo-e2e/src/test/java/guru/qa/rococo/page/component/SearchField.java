@@ -20,7 +20,7 @@ public class SearchField extends BaseComponent<SearchField> {
     @Step("Perform search for query {query}")
     @Nonnull
     public SearchField search(String query) {
-        self.setValue(query).pressEnter();
+        self.setValue(query).pressEnter().pressEnter();
         return this;
     }
 

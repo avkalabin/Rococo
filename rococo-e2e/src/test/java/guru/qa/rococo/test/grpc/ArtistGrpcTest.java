@@ -1,6 +1,5 @@
 package guru.qa.rococo.test.grpc;
 
-import com.google.protobuf.ByteString;
 import guru.qa.grpc.rococo.AllArtistsRequest;
 import guru.qa.grpc.rococo.AllArtistsResponse;
 import guru.qa.grpc.rococo.ArtistRequest;
@@ -22,13 +21,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static com.google.protobuf.ByteString.copyFromUtf8;
 import static guru.qa.rococo.model.ArtistJson.fromGrpc;
 import static guru.qa.rococo.utils.CustomAssert.check;
 import static guru.qa.rococo.utils.RandomDataUtils.randomBiography;
 import static guru.qa.rococo.utils.RandomDataUtils.randomUsername;
 import static io.qameta.allure.Allure.step;
-import static java.util.UUID.fromString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -99,9 +96,9 @@ public class ArtistGrpcTest {
                 .setId(createdArtistId)
                 .build();
 
-        final guru.qa.grpc.rococo.Artist artistResponse = artistStub.getArtistById(request);
+        final guru.qa.grpc.rococo.Artist response = artistStub.getArtistById(request);
 
-        step("Check artist in response", () -> assertEquals(artist, fromGrpc(artistResponse)));
+        step("Check artist in response", () -> assertEquals(artist, fromGrpc(response)));
     }
 
     @Test
@@ -132,17 +129,17 @@ public class ArtistGrpcTest {
                 .setPhoto(ImgUtils.convertImageToBase64(PHOTO_ARTIST))
                 .build();
 
-        final guru.qa.grpc.rococo.Artist artistResponse = artistStub.createArtist(request);
+        final guru.qa.grpc.rococo.Artist response = artistStub.createArtist(request);
 
         step("Check created artist in response", () -> {
             check("expected id",
-                    artistResponse.getId(), notNullValue());
+                    response.getId(), notNullValue());
             check("expected name",
-                    artistResponse.getName(), equalTo(name));
+                    response.getName(), equalTo(name));
             check("expected biography",
-                    artistResponse.getBiography(), equalTo(biography));
+                    response.getBiography(), equalTo(biography));
             check("expected photo",
-                    artistResponse.getPhoto(),
+                    response.getPhoto(),
                     equalTo(ImgUtils.convertImageToBase64(PHOTO_ARTIST)));
         });
     }
@@ -150,7 +147,7 @@ public class ArtistGrpcTest {
     @Test
     @Artist
     @DisplayName("Should update artist")
-    void shouldUpdateArtist(ArtistJson artist) {
+    void shouldUpdateArtist(@NotNull ArtistJson artist) {
         final String newName = randomUsername();
         final String newBiography = randomBiography();
         final String PHOTO_ARTIST_NEW = "img/artist_new.jpg";
@@ -162,17 +159,17 @@ public class ArtistGrpcTest {
                 .setPhoto(ImgUtils.convertImageToBase64(PHOTO_ARTIST_NEW))
                 .build();
 
-        final guru.qa.grpc.rococo.Artist artistResponse = artistStub.updateArtist(request);
+        final guru.qa.grpc.rococo.Artist response = artistStub.updateArtist(request);
 
         step("Check created artist in response", () -> {
             check("updated artist ID",
-                    artistResponse.getId(), equalTo(artist.id().toString()));
+                    response.getId(), equalTo(artist.id().toString()));
             check("updated arist name",
-                    artistResponse.getName(), equalTo(newName));
+                    response.getName(), equalTo(newName));
             check("updated artist biography",
-                    artistResponse.getBiography(), equalTo(newBiography));
+                    response.getBiography(), equalTo(newBiography));
             check("updated artist photo",
-                    artistResponse.getPhoto(),
+                    response.getPhoto(),
                     equalTo(ImgUtils.convertImageToBase64(PHOTO_ARTIST_NEW)));
         });
     }

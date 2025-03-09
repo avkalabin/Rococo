@@ -40,7 +40,7 @@ public class MuseumWebTest {
     @DisplayName("Should be able to add new museum")
     void shouldBeAbleToAddNewMuseum() {
         final String title = randomMuseumTitle();
-        final String country = randomCountry();
+        final String country = randomCountry().name();
         final String city = randomCity();
         final String PHOTO_MUSEUM = "img/museum.jpg";
         final String description = randomDescription();
@@ -71,7 +71,7 @@ public class MuseumWebTest {
     @DisplayName("Should be able edit museum")
     void shouldEditMuseum(@NotNull MuseumJson museum) {
         final String newTitle = randomMuseumTitle();
-        final String newCountry = randomCountry();
+        final String newCountry = randomCountry().name();
         final String newCity = randomCity();
         final String newDescription = randomDescription();
         final String PHOTO_MUSEUM_NEW = "img/museum_new.jpg";
