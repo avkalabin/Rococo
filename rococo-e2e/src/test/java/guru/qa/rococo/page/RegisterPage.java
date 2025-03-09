@@ -1,6 +1,7 @@
 package guru.qa.rococo.page;
 
 import com.codeborne.selenide.SelenideElement;
+import guru.qa.rococo.page.component.Input;
 import io.qameta.allure.Step;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,9 +15,9 @@ public class RegisterPage extends BasePage<RegisterPage> {
 
   public static final String URL = CFG.authUrl() + "register";
 
-  private final SelenideElement usernameInput = $("input[name='username']");
-  private final SelenideElement passwordInput = $("input[name='password']");
-  private final SelenideElement passwordSubmitInput = $("input[name='passwordSubmit']");
+  private final Input usernameInput = new Input($("[name='username']"));
+  private final Input passwordInput =  new Input($("[name='password']"));
+  private final Input passwordSubmitInput = new Input($("input[name='passwordSubmit']"));
   private final SelenideElement submitButton = $("button[type='submit']");
   private final SelenideElement proceedLoginButton = $(".form__submit");
   private final SelenideElement errorContainer = $(".form__error");
@@ -33,21 +34,21 @@ public class RegisterPage extends BasePage<RegisterPage> {
   @Step("Set username: {0}")
   @Nonnull
   public RegisterPage setUsername(String username) {
-    usernameInput.setValue(username);
+    usernameInput.getSelf().setValue(username);
     return this;
   }
 
   @Step("Set password: {0}")
   @Nonnull
   public RegisterPage setPassword(String password) {
-    passwordInput.setValue(password);
+    passwordInput.getSelf().setValue(password);
     return this;
   }
 
   @Step("Confirm password: {0}")
   @Nonnull
   public RegisterPage setPasswordSubmit(String password) {
-    passwordSubmitInput.setValue(password);
+    passwordSubmitInput.getSelf().setValue(password);
     return this;
   }
 
@@ -63,9 +64,9 @@ public class RegisterPage extends BasePage<RegisterPage> {
   @Override
   @Nonnull
   public RegisterPage checkThatPageLoaded() {
-    usernameInput.should(visible);
-    passwordInput.should(visible);
-    passwordSubmitInput.should(visible);
+    usernameInput.getSelf().should(visible);
+    passwordInput.getSelf().should(visible);
+    passwordSubmitInput.getSelf().should(visible);
     return this;
   }
 

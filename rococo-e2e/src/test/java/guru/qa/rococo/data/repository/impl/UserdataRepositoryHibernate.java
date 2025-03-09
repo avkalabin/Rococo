@@ -37,10 +37,8 @@ public class UserdataRepositoryHibernate implements UserdataRepository {
 
     @Nonnull
     @Override
-    public Optional<UserdataEntity> findById(UUID id) {
-        return Optional.ofNullable(
-                entityManager.find(UserdataEntity.class, id)
-        );
+    public UserdataEntity findById(UUID id) {
+        return entityManager.find(UserdataEntity.class, id);
     }
 
     @Nonnull

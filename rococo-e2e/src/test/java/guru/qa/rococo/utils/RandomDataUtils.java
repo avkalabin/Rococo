@@ -12,7 +12,6 @@ import java.util.Random;
 public class RandomDataUtils {
 
     private static final Faker faker = new Faker();
-    private static final Random random = new Random();
 
     @Nonnull
     public static String generateRandomWord(Integer charsCount) {

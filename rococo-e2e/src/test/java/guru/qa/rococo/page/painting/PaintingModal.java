@@ -3,7 +3,6 @@ package guru.qa.rococo.page.painting;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.page.BasePage;
-import guru.qa.rococo.page.artist.ArtistModal;
 import guru.qa.rococo.page.component.Input;
 import io.qameta.allure.Step;
 
@@ -14,7 +13,7 @@ import static com.codeborne.selenide.Selenide.$$;
 public class PaintingModal extends BasePage<PaintingModal> {
 
     private final Input titleInput = new Input($("[name=title]"));
-    private final SelenideElement photoInput = $("[name=content]");
+    private final Input photoInput =  new Input($("[name=content]"));
     private final SelenideElement artistSelect = $("[name=authorId]");
     private final Input descriptionInput = new Input($("[name=description]"));
     private final SelenideElement museumSelect = ($("[name=museumId]"));
@@ -36,7 +35,7 @@ public class PaintingModal extends BasePage<PaintingModal> {
 
     @Step("Set painting photo")
     public PaintingModal setContent(String filepath) {
-        photoInput.uploadFromClasspath(filepath);
+        photoInput.getSelf().uploadFromClasspath(filepath);
         return this;
     }
 

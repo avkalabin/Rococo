@@ -15,7 +15,6 @@ public class MainPage extends BasePage<MainPage>{
 
     private final SelenideElement pageContent = $("#page-content");
 
-
     @Step("Check that main page is loaded")
     @Override
     @Nonnull
@@ -23,7 +22,6 @@ public class MainPage extends BasePage<MainPage>{
         pageContent.shouldHave(text("Ваши любимые картины и художники всегда рядом"));
         return this;
     }
-
 
     @Step("Check that background content in dark mode")
     @Nonnull
@@ -38,6 +36,4 @@ public class MainPage extends BasePage<MainPage>{
         pageContent.shouldHave(cssValue("color", "rgba(18, 11, 24, 1)"));
         return this;
     }
-
-
 }

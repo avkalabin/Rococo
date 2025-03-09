@@ -16,9 +16,7 @@ public class ArtistPage extends BasePage<ArtistPage> {
     public static final String URL = CFG.authUrl() + "artist";
 
     private final SelenideElement pageContent = $("#page-content");
-
     private final SelenideElement artistList = $(".grid-cols-1");
-
 
     @Step("Check that artist page is loaded")
     @Override

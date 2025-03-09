@@ -17,7 +17,7 @@ public interface UserdataRepository {
     UserdataEntity update(UserdataEntity user);
 
     @Nonnull
-    Optional<UserdataEntity> findById(UUID id);
+    UserdataEntity findById(UUID id);
 
     @Nonnull
     Optional<UserdataEntity> findByUsername(String username);

@@ -7,11 +7,13 @@ import guru.qa.rococo.model.UserJson;
 import guru.qa.rococo.page.MainPage;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static guru.qa.rococo.utils.RandomDataUtils.*;
 
 @WebTest
+@Tag("web")
 @DisplayName("Registration web test")
 public class RegistrationWebTest {
 

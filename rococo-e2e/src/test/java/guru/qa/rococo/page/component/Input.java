@@ -16,5 +16,4 @@ public class Input extends BaseComponent<Input> {
     public void checkError(String text) {
         self.sibling(0).shouldBe(visible).shouldHave(text(text));
     }
-
 }
