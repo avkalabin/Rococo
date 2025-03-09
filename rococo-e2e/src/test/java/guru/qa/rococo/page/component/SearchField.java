@@ -9,19 +9,19 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class SearchField extends BaseComponent<SearchField> {
 
-  public SearchField(@Nonnull SelenideElement self) {
-    super(self);
-  }
+    public SearchField(@Nonnull SelenideElement self) {
+        super(self);
+    }
 
-  public SearchField() {
-    super($("input[type='search']"));
-  }
+    public SearchField() {
+        super($("input[type='search']"));
+    }
 
-  @Step("Perform search for query {query}")
-  @Nonnull
-  public SearchField search(String query) {
-    self.setValue(query).pressEnter();
-    return this;
-  }
+    @Step("Perform search for query {query}")
+    @Nonnull
+    public SearchField search(String query) {
+        self.setValue(query).pressEnter();
+        return this;
+    }
 
 }

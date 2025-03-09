@@ -38,8 +38,6 @@ public abstract class BasePage<T extends BasePage<?>> {
     protected final SelenideElement addPaintingButton = $(".ml-4");
     private final SelenideElement addNewArtistBtn = $(".btn");
 
-//    private final ElementsCollection formErrors = $$("p.Mui-error, .input__helper-text");
-
     public abstract T checkThatPageLoaded();
 
     @Step("Success submit modal form")
@@ -99,13 +97,4 @@ public abstract class BasePage<T extends BasePage<?>> {
         $(byTagAndText("div", title)).click();
         return new PaintingDetailPage();
     }
-
-//
-//    @Step("Check that form error message appears: {expectedText}")
-//    @SuppressWarnings("unchecked")
-//    @Nonnull
-//    public T checkFormErrorMessage(String... expectedText) {
-//        formErrors.should(CollectionCondition.textsInAnyOrder(expectedText));
-//        return (T) this;
-//    }
 }

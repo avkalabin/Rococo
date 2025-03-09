@@ -13,12 +13,11 @@ import static com.codeborne.selenide.Selenide.$$;
 public class PaintingModal extends BasePage<PaintingModal> {
 
     private final Input titleInput = new Input($("[name=title]"));
-    private final Input photoInput =  new Input($("[name=content]"));
+    private final Input photoInput = new Input($("[name=content]"));
     private final SelenideElement artistSelect = $("[name=authorId]");
     private final Input descriptionInput = new Input($("[name=description]"));
     private final SelenideElement museumSelect = ($("[name=museumId]"));
     private final ElementsCollection options = $$("option");
-
 
     @Step("Check that painting modal page is loaded")
     @Override
@@ -38,7 +37,6 @@ public class PaintingModal extends BasePage<PaintingModal> {
         photoInput.getSelf().uploadFromClasspath(filepath);
         return this;
     }
-
 
     @Step("Select painting's artist: {artist}")
     public PaintingModal selectArtist(String artist) {

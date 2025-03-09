@@ -12,6 +12,7 @@ public class PaintingDetailPage extends BasePage<PaintingDetailPage> {
 
     private static final String PAGE_URL = CFG.frontUrl() + "painting";
     private final String paintingId;
+
     private final SelenideElement title = $(".card-header");
     private final SelenideElement photo = $(".my-4");
     private final SelenideElement editPaintingButton = $("[data-testid=edit-painting]");

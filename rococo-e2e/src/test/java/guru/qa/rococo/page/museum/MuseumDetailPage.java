@@ -9,6 +9,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class MuseumDetailPage extends BasePage<MuseumDetailPage> {
+
     private static final String PAGE_URL = CFG.frontUrl() + "museum";
     private final String museumId;
 
@@ -17,7 +18,6 @@ public class MuseumDetailPage extends BasePage<MuseumDetailPage> {
     private final SelenideElement description = $(".w-56").sibling(0);
     private final SelenideElement photo = $(".my-4");
     private final SelenideElement editMuseumBtn = $("[data-testid=edit-museum]");
-
 
     public MuseumDetailPage(String museumId) {
         this.museumId = museumId;
@@ -51,8 +51,4 @@ public class MuseumDetailPage extends BasePage<MuseumDetailPage> {
         editMuseumBtn.click();
         return new MuseumModal();
     }
-
-
-
-
 }

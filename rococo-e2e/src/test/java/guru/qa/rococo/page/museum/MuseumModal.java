@@ -71,7 +71,7 @@ public class MuseumModal extends BasePage<MuseumModal> {
     @Step("Check that museum modal page is loaded")
     @Override
     public MuseumModal checkThatPageLoaded() {
-            modalPage.shouldHave(text("Название музея"));
+        modalPage.shouldHave(text("Название музея"));
         return this;
     }
 }

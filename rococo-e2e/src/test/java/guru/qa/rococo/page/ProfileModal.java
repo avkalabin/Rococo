@@ -18,7 +18,6 @@ public class ProfileModal extends BasePage<ProfileModal> {
     private final Input surnameInput = new Input($("[name='surname']"));
     private final SelenideElement avatar = $("[name=content]");
 
-
     @Step("Check that profile modal loaded")
     @Override
     public ProfileModal checkThatPageLoaded() {

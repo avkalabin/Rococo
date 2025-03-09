@@ -43,7 +43,4 @@ public class ArtistPage extends BasePage<ArtistPage> {
         artistList.$$("li").shouldHave(size(size));
         return this;
     }
-
-
-
 }

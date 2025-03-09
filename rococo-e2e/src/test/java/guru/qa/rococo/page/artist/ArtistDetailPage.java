@@ -9,6 +9,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class ArtistDetailPage extends BasePage<ArtistDetailPage> {
+
     private static final String PAGE_URL = CFG.frontUrl() + "artist";
     private final String artistId;
 
@@ -50,8 +51,4 @@ public class ArtistDetailPage extends BasePage<ArtistDetailPage> {
         editArtistBtn.click();
         return new ArtistModal();
     }
-
-
-
-
 }
