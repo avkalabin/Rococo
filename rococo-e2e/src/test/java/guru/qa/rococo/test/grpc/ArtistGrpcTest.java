@@ -161,7 +161,7 @@ public class ArtistGrpcTest {
 
         final guru.qa.grpc.rococo.Artist response = artistStub.updateArtist(request);
 
-        step("Check created artist in response", () -> {
+        step("Check updated artist in response", () -> {
             check("updated artist ID",
                     response.getId(), equalTo(artist.id().toString()));
             check("updated arist name",

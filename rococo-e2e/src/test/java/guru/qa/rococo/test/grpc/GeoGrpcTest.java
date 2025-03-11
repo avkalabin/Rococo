@@ -37,7 +37,7 @@ public class GeoGrpcTest {
                 .build();
     }
 
-    private static final RococoGeoServiceGrpc.RococoGeoServiceBlockingStub geoStub
+    static final RococoGeoServiceGrpc.RococoGeoServiceBlockingStub geoStub
             = RococoGeoServiceGrpc.newBlockingStub(geoChannel);
 
     @Test
