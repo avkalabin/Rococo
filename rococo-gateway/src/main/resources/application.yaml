@@ -77,5 +77,7 @@ grpc:
       negotiationType: PLAINTEXT
 
 rococo-front:
-  base-uri: 'http://client.rococo.dc'
+  base-uri: 'http://frontend.rococo.dc'
+rococo-gateway:
+  base-uri: 'http://gateway.rococo.dc:8080'
 ---

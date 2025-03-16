@@ -14,78 +14,78 @@ public enum DockerConfig implements Config {
     @NotNull
     @Override
     public String frontUrl() {
-        return "";
+        return "http://frontend.rococo.dc";
     }
 
     @NotNull
     @Override
     public String authUrl() {
-        return "";
+        return "http://auth.rococo.dc:9000";
     }
 
     @NotNull
     @Override
     public String artistJdbcUrl() {
-        return "";
+        return "jdbc:mysql://rococo-all-db:3306/rococo-artist";
     }
 
     @NotNull
     @Override
     public String authJdbcUrl() {
-        return "";
+        return "jdbc:mysql://rococo-all-db:3306/rococo-auth";
     }
 
     @NotNull
     @Override
     public String geoJdbcUrl() {
-        return "";
+        return "jdbc:mysql://rococo-all-db:3306/rococo-geo";
     }
 
     @NotNull
     @Override
     public String museumJdbcUrl() {
-        return "";
+        return "jdbc:mysql://rococo-all-db:3306/rococo-museum";
     }
 
     @NotNull
     @Override
     public String paintingJdbcUrl() {
-        return "";
+        return "jdbc:mysql://rococo-all-db:3306/rococo-painting";
     }
 
     @NotNull
     @Override
     public String userdataJdbcUrl() {
-        return "";
+        return "jdbc:mysql://rococo-all-db:3306/rococo-userdata";
     }
 
     @NotNull
     @Override
     public String userdataGrpcAddress() {
-        return "";
+        return "userdata.rococo.dc";
     }
 
     @NotNull
     @Override
     public String artistGrpcAddress() {
-        return "";
+        return "artist.rococo.dc";
     }
 
     @NotNull
     @Override
     public String museumGrpcAddress() {
-        return "";
+        return "museum.rococo.dc";
     }
 
     @NotNull
     @Override
     public String geoGrpcAddress() {
-        return "";
+        return "geo.rococo.dc";
     }
 
     @NotNull
     @Override
     public String paintingGrpcAddress() {
-        return "";
+        return "painting.rococo.dc";
     }
 }
