@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 @WebTest
 @Tag("web")
-@DisplayName("Navigation web tests")
+@DisplayName("WEB | Navigation tests")
 public class NavigateWebTest {
 
     @Test

@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 @WebTest
 @Tag("web")
-@DisplayName("Artist web test")
+@DisplayName("WEB | Artist tests")
 public class ArtistWebTest {
 
     private final ArtistRepository artistRepository = new ArtistRepositoryHibernate();

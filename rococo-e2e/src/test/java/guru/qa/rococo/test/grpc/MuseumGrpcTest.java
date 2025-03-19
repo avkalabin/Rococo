@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @GrpcTest
 @Tag("grpc")
-@DisplayName("Museum gRPC tests")
+@DisplayName("gRPC | Museum tests")
 public class MuseumGrpcTest {
     private static final Config CFG = Config.getInstance();
     private static final Channel museumChannel;

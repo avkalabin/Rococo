@@ -14,13 +14,13 @@ public enum DockerConfig implements Config {
     @NotNull
     @Override
     public String frontUrl() {
-        return "http://frontend.rococo.dc";
+        return "http://frontend.rococo.dc/";
     }
 
     @NotNull
     @Override
     public String authUrl() {
-        return "http://auth.rococo.dc:9000";
+        return "http://auth.rococo.dc:9000/";
     }
 
     @NotNull

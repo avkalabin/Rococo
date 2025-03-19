@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @GrpcTest
 @Tag("grpc")
-@DisplayName("Painting gRPC tests")
+@DisplayName("gRPC | Painting tests")
 public class PaintingGrpcTest {
     private static final Config CFG = Config.getInstance();
     private static final Channel paintingChannel;

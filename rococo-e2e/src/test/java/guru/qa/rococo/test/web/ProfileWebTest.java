@@ -23,7 +23,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 @WebTest
 @Tag("web")
-@DisplayName("Profile web test")
+@DisplayName("WEB | Profile test")
 public class ProfileWebTest {
 
     UserdataRepository userdataRepository = new UserdataRepositoryHibernate();

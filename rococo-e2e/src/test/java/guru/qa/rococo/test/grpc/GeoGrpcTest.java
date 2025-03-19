@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @GrpcTest
-@DisplayName("Geo gRPC tests")
+@DisplayName("gRPC | Geo tests")
 public class GeoGrpcTest {
 
     private static final Config CFG = Config.getInstance();

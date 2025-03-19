@@ -14,7 +14,7 @@ import static guru.qa.rococo.utils.RandomDataUtils.*;
 
 @WebTest
 @Tag("web")
-@DisplayName("Registration web test")
+@DisplayName("WEB | Registration test")
 public class RegistrationWebTest {
 
     @Test

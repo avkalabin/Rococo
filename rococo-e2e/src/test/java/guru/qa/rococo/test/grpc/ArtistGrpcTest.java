@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @GrpcTest
 @Tag("grpc")
-@DisplayName("Artist gRPC tests")
+@DisplayName("gRPC | Artist tests")
 public class ArtistGrpcTest {
     private static final Config CFG = Config.getInstance();
     private static final Channel artistChannel;
