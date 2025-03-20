@@ -49,7 +49,6 @@ public class ArtistGrpcTest {
     private static final RococoArtistServiceGrpc.RococoArtistServiceBlockingStub artistStub
             = RococoArtistServiceGrpc.newBlockingStub(artistChannel);
 
-
     @Test
     @Artist
     @DisplayName("Should return all artists without name filter")

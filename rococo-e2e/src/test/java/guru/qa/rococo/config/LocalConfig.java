@@ -88,4 +88,9 @@ public enum LocalConfig implements Config {
     public String paintingGrpcAddress() {
         return "localhost";
     }
+
+    @Override
+    public String allureDockerServiceUrl() {
+        return null;
+    }
 }

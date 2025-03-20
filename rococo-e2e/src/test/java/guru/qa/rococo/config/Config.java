@@ -80,4 +80,11 @@ public interface Config {
     default int paintingGrpcPort() {
         return 8095;
     }
+
+    String allureDockerServiceUrl();
+
+    @Nonnull
+    default String projectId() {
+        return "rococo-kalabin";
+    }
 }
