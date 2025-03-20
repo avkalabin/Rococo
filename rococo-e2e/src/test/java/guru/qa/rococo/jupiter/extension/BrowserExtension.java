@@ -9,7 +9,6 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.extension.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
@@ -23,7 +22,7 @@ public class BrowserExtension implements
 
   static {
     String browser = System.getenv("BROWSER");
-    Configuration.browser = browser.equals("firefox") ? "firefox" : "chrome";
+    Configuration.browser = "firefox".equals(browser) ? "firefox" : "chrome";
     Configuration.timeout = 8000;
     Configuration.pageLoadStrategy = "eager";
     if ("docker".equals(System.getProperty("test.env"))) {
