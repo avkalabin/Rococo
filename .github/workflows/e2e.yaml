@@ -2,14 +2,14 @@ name: e2e
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [ opened, reopened, synchronize ]
 
 jobs:
   e2e:
     runs-on: ubuntu-latest
     env:
       PROFILE: docker
-      COMPOSE_PROFILE: test
+      COMPOSE_PROFILES: test
       PREFIX: avkalabin
       ARCH: amd64
       ALLURE_DOCKER_API: ${{ secrets.ALLURE_DOCKER_API }}
@@ -34,7 +34,7 @@ jobs:
           docker pull selenoid/vnc_chrome:127.0
       - name: Get the last commit message
         run: |
-          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV  
+          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV
       - name: Run e2e tests
         id: e2e
         run: |
@@ -58,8 +58,8 @@ jobs:
         with:
           script: |
             const exitCode = ${{ steps.e2e.outputs.E2E_EXIT_CODE }}
-            const reportUrl = 'https://allure.niffler-stage.qa.guru/api/allure-docker-service/projects/rococo-kalabin/reports/latest/index.html'
-            const historyUrl = 'https://allure.niffler-stage.qa.guru/allure-docker-service-ui/projects/rococo-kalabin'
+            const reportUrl = 'https://allure.niffler-stage.qa.guru/api/allure-docker-service/projects/niffler-ng-6/reports/latest/index.html'
+            const historyUrl = 'https://allure.niffler-stage.qa.guru/allure-docker-service-ui/projects/niffler-ng-6'
             const message = exitCode == '0' ?
               `✅ TEST RUN PASSED ✅ There is the [report](${reportUrl})\n🕓 All reports [history](${historyUrl})` :
               `🔴 TEST RUN FAILED 🔴 There is the [report](${reportUrl})\n🕓 All reports [history](${historyUrl})`
@@ -69,6 +69,4 @@ jobs:
               repo: context.repo.repo,
               body: message
             })
-       
-
-
+      
