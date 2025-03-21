@@ -2,14 +2,14 @@ name: e2e
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [ opened, reopened, synchronize ]
 
 jobs:
   e2e:
     runs-on: ubuntu-latest
     env:
       PROFILE: docker
-      COMPOSE_PROFILE: test
+      COMPOSE_PROFILES: test
       PREFIX: avkalabin
       ARCH: amd64
       ALLURE_DOCKER_API: ${{ secrets.ALLURE_DOCKER_API }}
@@ -34,7 +34,7 @@ jobs:
           docker pull selenoid/vnc_chrome:127.0
       - name: Get the last commit message
         run: |
-          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV  
+          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV
       - name: Run e2e tests
         id: e2e
         run: |
@@ -69,6 +69,4 @@ jobs:
               repo: context.repo.repo,
               body: message
             })
-       
-
-
+      
