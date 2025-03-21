@@ -34,7 +34,7 @@ jobs:
           docker pull selenoid/vnc_chrome:127.0
       - name: Get the last commit message
         run: |
-          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV
+          echo "HEAD_COMMIT_MESSAGE=$(git log -1 --format=%s ${{ github.event.pull_request.head.sha }})" >> $GITHUB_ENV
       - name: Run e2e tests
         id: e2e
         run: |
