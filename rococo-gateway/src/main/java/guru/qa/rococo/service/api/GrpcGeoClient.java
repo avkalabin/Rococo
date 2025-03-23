@@ -26,7 +26,7 @@ public class GrpcGeoClient {
     @GrpcClient("grpcGeoClient")
     private RococoGeoServiceGrpc.RococoGeoServiceBlockingStub rococoGeoServiceStub;
 
-    public Page<CountryJson> getAllCountry(@Nonnull Pageable pageable) {
+    public Page<CountryJson> getAllCountries(@Nonnull Pageable pageable) {
         AllCountriesRequest request = AllCountriesRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
                 .setSize(pageable.getPageSize())

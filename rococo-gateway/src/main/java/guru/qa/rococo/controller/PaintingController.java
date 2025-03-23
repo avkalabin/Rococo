@@ -22,9 +22,9 @@ public class PaintingController {
     }
 
     @GetMapping
-    public Page<PaintingJson> getAll(@RequestParam(required = false) String title,
+    public Page<PaintingJson> getAllPaintings(@RequestParam(required = false) String title,
                                      @PageableDefault Pageable pageable) {
-        return grpcPaintingClient.getAllPainting(title, pageable);
+        return grpcPaintingClient.getAllPaintings(title, pageable);
     }
 
     @GetMapping("/author/{id}")

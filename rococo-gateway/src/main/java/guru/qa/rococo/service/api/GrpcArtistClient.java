@@ -29,7 +29,7 @@ public class GrpcArtistClient {
     @GrpcClient("grpcArtistClient")
     private RococoArtistServiceGrpc.RococoArtistServiceBlockingStub rococoArtistServiceStub;
 
-    public Page<ArtistJson> getAllArtist(@Nullable String name, @Nonnull Pageable pageable) {
+    public Page<ArtistJson> getAllArtists(@Nullable String name, @Nonnull Pageable pageable) {
         AllArtistsRequest request = AllArtistsRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
                 .setSize(pageable.getPageSize())

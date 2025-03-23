@@ -22,8 +22,8 @@ public class GeoController {
     }
 
     @GetMapping
-    public Page<CountryJson> getAll(@PageableDefault Pageable pageable) {
-        return grpcGeoClient.getAllCountry(pageable);
+    public Page<CountryJson> getAllCountries(@PageableDefault Pageable pageable) {
+        return grpcGeoClient.getAllCountries(pageable);
     }
 
 }

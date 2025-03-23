@@ -26,7 +26,7 @@ public class GrpcMuseumClient {
     @GrpcClient("grpcMuseumClient")
     private RococoMuseumServiceGrpc.RococoMuseumServiceBlockingStub rococoMuseumServiceStub;
 
-    public Page<MuseumJson> getAllMuseum(String title, @Nonnull Pageable pageable) {
+    public Page<MuseumJson> getAllMuseums(String title, @Nonnull Pageable pageable) {
         AllMuseumsRequest request = AllMuseumsRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
                 .setSize(pageable.getPageSize())

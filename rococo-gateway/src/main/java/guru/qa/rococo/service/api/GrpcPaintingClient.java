@@ -26,7 +26,7 @@ public class GrpcPaintingClient {
     @GrpcClient("grpcPaintingClient")
     private RococoPaintingServiceGrpc.RococoPaintingServiceBlockingStub rococoPaintingServiceStub;
 
-    public Page<PaintingJson> getAllPainting(String title, @Nonnull Pageable pageable) {
+    public Page<PaintingJson> getAllPaintings(String title, @Nonnull Pageable pageable) {
 
         AllPaintingsRequest request = AllPaintingsRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
