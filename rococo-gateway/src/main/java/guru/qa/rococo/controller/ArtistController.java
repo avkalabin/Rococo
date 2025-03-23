@@ -23,9 +23,9 @@ public class ArtistController {
     }
 
     @GetMapping
-    public Page<ArtistJson> getAllArtist(@RequestParam(required = false) String name,
-                                         @PageableDefault Pageable pageable) {
-        return grpcArtistClient.getAllArtist(name, pageable);
+    public Page<ArtistJson> getAllArtists(@RequestParam(required = false) String name,
+                                          @PageableDefault Pageable pageable) {
+        return grpcArtistClient.getAllArtists(name, pageable);
     }
 
     @GetMapping("/{id}")

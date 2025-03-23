@@ -22,9 +22,9 @@ public class MuseumController {
     }
 
     @GetMapping
-    public Page<MuseumJson> getAll(@RequestParam(required = false) String title,
-                                   @PageableDefault Pageable pageable) {
-        return grpcMuseumClient.getAllMuseum(title, pageable);
+    public Page<MuseumJson> getAllMuseums(@RequestParam(required = false) String title,
+                                          @PageableDefault Pageable pageable) {
+        return grpcMuseumClient.getAllMuseums(title, pageable);
     }
 
     @GetMapping("/{id}")
