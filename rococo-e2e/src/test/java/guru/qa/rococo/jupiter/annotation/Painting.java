@@ -12,5 +12,4 @@ public @interface Painting {
     String title() default "";
 
     String description() default "";
-
 }

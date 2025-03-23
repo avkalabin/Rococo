@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class GrpcMuseumClient {
     @GrpcClient("grpcMuseumClient")
     private RococoMuseumServiceGrpc.RococoMuseumServiceBlockingStub rococoMuseumServiceStub;
 
-    public Page<MuseumJson> getAllMuseum(String title, Pageable pageable) {
+    public Page<MuseumJson> getAllMuseum(String title, @Nonnull Pageable pageable) {
         AllMuseumsRequest request = AllMuseumsRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
                 .setSize(pageable.getPageSize())
@@ -46,7 +47,7 @@ public class GrpcMuseumClient {
         }
     }
 
-    public MuseumJson getMuseumById(UUID id) {
+    public MuseumJson getMuseumById(@Nonnull UUID id) {
         MuseumRequest request = MuseumRequest.newBuilder()
                 .setId(id.toString())
                 .build();
@@ -85,7 +86,8 @@ public class GrpcMuseumClient {
         }
     }
 
-    private Museum toGrpc(MuseumJson museum) {
+    @Nonnull
+    private Museum toGrpc(@Nonnull MuseumJson museum) {
         Country country = Country.newBuilder()
                 .setId(museum.geo().country().id().toString())
                 .setName(museum.geo().country().name() != null ? museum.geo().country().name() : "")

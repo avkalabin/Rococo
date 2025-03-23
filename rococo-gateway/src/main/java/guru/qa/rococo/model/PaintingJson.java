@@ -3,6 +3,7 @@ package guru.qa.rococo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.grpc.rococo.Painting;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public record PaintingJson(
@@ -20,7 +21,8 @@ public record PaintingJson(
         ArtistJson artist
 ) {
 
-    public static PaintingJson fromGrpc(Painting painting) {
+    @Nonnull
+    public static PaintingJson fromGrpc(@Nonnull Painting painting) {
         return new PaintingJson(
                 UUID.fromString(painting.getId()),
                 painting.getTitle(),

@@ -3,6 +3,8 @@ package guru.qa.rococo.service;
 import guru.qa.grpc.rococo.*;
 import guru.qa.rococo.data.PaintingEntity;
 import guru.qa.rococo.data.repository.PaintingRepository;
+import guru.qa.rococo.model.EventType;
+import guru.qa.rococo.model.LogJson;
 import guru.qa.rococo.service.api.GrpcArtistClient;
 import guru.qa.rococo.service.api.GrpcMuseumClient;
 import io.grpc.Status;
@@ -18,11 +20,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -38,6 +43,9 @@ class GrpcPaintingServiceTest {
 
     @Mock
     private GrpcArtistClient grpcArtistClient;
+
+    @Mock
+    private KafkaTemplate<String, LogJson> kafkaTemplate;
 
     @InjectMocks
     private GrpcPaintingService grpcPaintingService;
@@ -225,6 +233,8 @@ class GrpcPaintingServiceTest {
         });
         when(grpcMuseumClient.getMuseumById(museumId)).thenReturn(museum);
         when(grpcArtistClient.getArtistById(artistId)).thenReturn(artist);
+        CompletableFuture<SendResult<String, LogJson>> future = new CompletableFuture<>();
+        when(kafkaTemplate.send(anyString(), any(LogJson.class))).thenReturn(future);
 
         StreamObserver<Painting> responseObserver = mock(StreamObserver.class);
 
@@ -247,6 +257,14 @@ class GrpcPaintingServiceTest {
         assertEquals(paintingId.toString(), responsePainting.getId());
         assertEquals("New Painting", responsePainting.getTitle());
         assertEquals("New Description", responsePainting.getDescription());
+
+        ArgumentCaptor<LogJson> logCaptor = ArgumentCaptor.forClass(LogJson.class);
+        verify(kafkaTemplate, times(1)).send(eq("painting"), logCaptor.capture());
+
+        LogJson capturedLog = logCaptor.getValue();
+        assertEquals(EventType.PAINTING_CREATED, capturedLog.eventType());
+        assertEquals(savedEntity.getId(), capturedLog.entityId());
+        assertTrue(capturedLog.description().contains("Painting New Painting successfully created"));
     }
 
     @Test
@@ -275,6 +293,8 @@ class GrpcPaintingServiceTest {
         when(paintingRepository.save(any(PaintingEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(grpcMuseumClient.getMuseumById(museumId)).thenReturn(museum);
         when(grpcArtistClient.getArtistById(artistId)).thenReturn(artist);
+        CompletableFuture<SendResult<String, LogJson>> future = new CompletableFuture<>();
+        when(kafkaTemplate.send(anyString(), any(LogJson.class))).thenReturn(future);
 
         StreamObserver<Painting> responseObserver = mock(StreamObserver.class);
 
@@ -297,6 +317,14 @@ class GrpcPaintingServiceTest {
         assertEquals(paintingId.toString(), responsePainting.getId());
         assertEquals("Updated Title", responsePainting.getTitle());
         assertEquals("Updated Description", responsePainting.getDescription());
+
+        ArgumentCaptor<LogJson> logCaptor = ArgumentCaptor.forClass(LogJson.class);
+        verify(kafkaTemplate, times(1)).send(eq("painting"), logCaptor.capture());
+
+        LogJson capturedLog = logCaptor.getValue();
+        assertEquals(EventType.PAINTING_UPDATED, capturedLog.eventType());
+        assertEquals(updatedEntity.getId(), capturedLog.entityId());
+        assertTrue(capturedLog.description().contains("Painting Updated Title successfully updated"));
     }
 
     @Test

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class GrpcPaintingClient {
     @GrpcClient("grpcPaintingClient")
     private RococoPaintingServiceGrpc.RococoPaintingServiceBlockingStub rococoPaintingServiceStub;
 
-    public Page<PaintingJson> getAllPainting(String title, Pageable pageable) {
+    public Page<PaintingJson> getAllPainting(String title, @Nonnull Pageable pageable) {
 
         AllPaintingsRequest request = AllPaintingsRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
@@ -46,7 +47,7 @@ public class GrpcPaintingClient {
         }
     }
 
-    public Page<PaintingJson> getPaintingByArtist(UUID id, Pageable pageable) {
+    public Page<PaintingJson> getPaintingByArtist(UUID id, @Nonnull Pageable pageable) {
         PaintingByArtistRequest request = PaintingByArtistRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
                 .setSize(pageable.getPageSize())
@@ -66,7 +67,7 @@ public class GrpcPaintingClient {
         }
     }
 
-    public PaintingJson getPaintingById(UUID id) {
+    public PaintingJson getPaintingById(@Nonnull UUID id) {
         PaintingRequest request = PaintingRequest.newBuilder()
                 .setId(id.toString())
                 .build();
@@ -105,7 +106,8 @@ public class GrpcPaintingClient {
         }
     }
 
-    private Painting toGrpc(PaintingJson painting) {
+    @Nonnull
+    private Painting toGrpc(@Nonnull PaintingJson painting) {
         MuseumJson museumJson = painting.museum();
         GeoJson geoJson = (museumJson != null) ? museumJson.geo() : null;
         CountryJson countryJson = (geoJson != null) ? geoJson.country() : null;
@@ -148,5 +150,4 @@ public class GrpcPaintingClient {
 
         return paintingBuilder.build();
     }
-
 }

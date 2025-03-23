@@ -3,6 +3,7 @@ package guru.qa.rococo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.grpc.rococo.Museum;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public record MuseumJson(
@@ -17,7 +18,8 @@ public record MuseumJson(
         @JsonProperty("geo")
         GeoJson geo) {
 
-    public static MuseumJson fromGrpc(Museum response) {
+    @Nonnull
+    public static MuseumJson fromGrpc(@Nonnull Museum response) {
 
         GeoJson geoJson = new GeoJson(
                 response.getGeo().getCity(),
@@ -31,6 +33,4 @@ public record MuseumJson(
                 geoJson
         );
     }
-
-
 }

@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
@@ -31,7 +32,8 @@ public class ArtistEntity {
     @Column(name = "photo", nullable = false, columnDefinition = "MEDIUMBLOB")
     private byte[] photo;
 
-    public static ArtistEntity fromJson(ArtistJson artist) {
+    @Nonnull
+    public static ArtistEntity fromJson(@Nonnull ArtistJson artist) {
         ArtistEntity artistEntity = new ArtistEntity();
         artistEntity.setId(artist.id());
         artistEntity.setName(artist.name());

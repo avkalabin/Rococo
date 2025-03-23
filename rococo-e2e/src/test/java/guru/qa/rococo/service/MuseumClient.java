@@ -10,5 +10,4 @@ public interface MuseumClient {
 
     @Nonnull
     MuseumJson createMuseum(MuseumJson museum);
-
 }

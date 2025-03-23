@@ -4,6 +4,8 @@ import guru.qa.grpc.rococo.User;
 import guru.qa.grpc.rococo.UserRequest;
 import guru.qa.rococo.data.UserEntity;
 import guru.qa.rococo.data.repository.UserRepository;
+import guru.qa.rococo.model.EventType;
+import guru.qa.rococo.model.LogJson;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
@@ -14,9 +16,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,6 +31,9 @@ class GrpcUserdataServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private KafkaTemplate<String, LogJson> kafkaTemplate;
 
     @InjectMocks
     private GrpcUserdataService grpcUserdataService;
@@ -91,8 +99,12 @@ class GrpcUserdataServiceTest {
                 .setLastname("UpdatedLastname")
                 .setAvatar("updatedAvatar")
                 .build();
+
         when(userRepository.findByUsername("testUser")).thenReturn(userEntity);
         when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        CompletableFuture<SendResult<String, LogJson>> future = new CompletableFuture<>();
+        when(kafkaTemplate.send(anyString(), any(LogJson.class))).thenReturn(future);
 
         StreamObserver<User> responseObserver = mock(StreamObserver.class);
 
@@ -116,7 +128,16 @@ class GrpcUserdataServiceTest {
         assertEquals("UpdatedFirstname", responseUser.getFirstname());
         assertEquals("UpdatedLastname", responseUser.getLastname());
         assertEquals("updatedAvatar", responseUser.getAvatar());
+
+        ArgumentCaptor<LogJson> logCaptor = ArgumentCaptor.forClass(LogJson.class);
+        verify(kafkaTemplate, times(1)).send(eq("userdata"), logCaptor.capture());
+
+        LogJson capturedLog = logCaptor.getValue();
+        assertEquals(EventType.USER_UPDATED, capturedLog.eventType());
+        assertEquals(userEntity.getId(), capturedLog.entityId());
+        assertTrue(capturedLog.description().contains("User testUser successfully updated"));
     }
+
 
     @Test
     void updateUserShouldReturnNotFoundWhenUserDoesNotExist() {

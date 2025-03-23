@@ -9,6 +9,8 @@ import guru.qa.rococo.utils.RandomDataUtils;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 
+import javax.annotation.Nonnull;
+
 public class ArtistExtension implements BeforeEachCallback, ParameterResolver {
 
     public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(ArtistExtension.class);
@@ -16,7 +18,7 @@ public class ArtistExtension implements BeforeEachCallback, ParameterResolver {
     private final ArtistClient artistClient = new ArtistDbClient();
 
     @Override
-    public void beforeEach(ExtensionContext context) {
+    public void beforeEach(@Nonnull ExtensionContext context) {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Artist.class)
                 .ifPresent(artistAnno -> {
                     String name = artistAnno.name().isEmpty() ? RandomDataUtils.randomArtistName() : artistAnno.name();
@@ -32,12 +34,14 @@ public class ArtistExtension implements BeforeEachCallback, ParameterResolver {
     }
 
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public boolean supportsParameter(@Nonnull ParameterContext parameterContext,
+                                     @Nonnull ExtensionContext extensionContext) throws ParameterResolutionException {
         return parameterContext.getParameter().getType().isAssignableFrom(ArtistJson.class);
     }
 
     @Override
-    public ArtistJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public ArtistJson resolveParameter(@Nonnull ParameterContext parameterContext,
+                                       @Nonnull ExtensionContext extensionContext) throws ParameterResolutionException {
         ArtistJson artist = extensionContext.getStore(NAMESPACE)
                 .get(extensionContext.getUniqueId(), ArtistJson.class);
 

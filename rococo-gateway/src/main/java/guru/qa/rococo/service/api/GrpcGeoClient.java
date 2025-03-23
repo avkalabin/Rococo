@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 @Component
@@ -25,7 +26,7 @@ public class GrpcGeoClient {
     @GrpcClient("grpcGeoClient")
     private RococoGeoServiceGrpc.RococoGeoServiceBlockingStub rococoGeoServiceStub;
 
-    public Page<CountryJson> getAllCountry(Pageable pageable) {
+    public Page<CountryJson> getAllCountry(@Nonnull Pageable pageable) {
         AllCountriesRequest request = AllCountriesRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
                 .setSize(pageable.getPageSize())

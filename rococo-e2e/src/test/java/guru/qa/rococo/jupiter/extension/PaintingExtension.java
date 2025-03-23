@@ -11,6 +11,8 @@ import guru.qa.rococo.utils.RandomDataUtils;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 
+import javax.annotation.Nonnull;
+
 public class PaintingExtension implements BeforeEachCallback, ParameterResolver {
 
     private final static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(PaintingExtension.class);
@@ -20,7 +22,7 @@ public class PaintingExtension implements BeforeEachCallback, ParameterResolver 
 
 
     @Override
-    public void beforeEach(ExtensionContext context) {
+    public void beforeEach(@Nonnull ExtensionContext context) {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Painting.class)
                 .ifPresent(paintingAnno -> {
                     String title = paintingAnno.title().isEmpty() ? RandomDataUtils.randomPaintingTitle() : paintingAnno.title();
@@ -47,12 +49,14 @@ public class PaintingExtension implements BeforeEachCallback, ParameterResolver 
     }
 
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public boolean supportsParameter(@Nonnull ParameterContext parameterContext,
+                                     @Nonnull ExtensionContext extensionContext) throws ParameterResolutionException {
         return parameterContext.getParameter().getType().isAssignableFrom(PaintingJson.class);
     }
 
     @Override
-    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public Object resolveParameter(@Nonnull ParameterContext parameterContext,
+                                   @Nonnull ExtensionContext extensionContext) throws ParameterResolutionException {
         PaintingJson painting = extensionContext.getStore(NAMESPACE)
                 .get(extensionContext.getUniqueId(), PaintingJson.class);
 

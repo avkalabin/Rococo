@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ public class GrpcArtistClient {
     @GrpcClient("grpcArtistClient")
     private RococoArtistServiceGrpc.RococoArtistServiceBlockingStub rococoArtistServiceStub;
 
-    public Page<ArtistJson> getAllArtist(@Nullable String name, Pageable pageable) {
+    public Page<ArtistJson> getAllArtist(@Nullable String name, @Nonnull Pageable pageable) {
         AllArtistsRequest request = AllArtistsRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
                 .setSize(pageable.getPageSize())
@@ -49,7 +50,7 @@ public class GrpcArtistClient {
         }
     }
 
-    public ArtistJson getArtistById(UUID id) {
+    public ArtistJson getArtistById(@Nonnull UUID id) {
         ArtistRequest request = ArtistRequest.newBuilder()
                 .setId(id.toString())
                 .build();
@@ -88,7 +89,8 @@ public class GrpcArtistClient {
         }
     }
 
-    private Artist toGrpc(ArtistJson artist) {
+    @Nonnull
+    private Artist toGrpc(@Nonnull ArtistJson artist) {
         return Artist.newBuilder()
                 .setId(artist.id() != null ? artist.id().toString() : "")
                 .setName(artist.name())

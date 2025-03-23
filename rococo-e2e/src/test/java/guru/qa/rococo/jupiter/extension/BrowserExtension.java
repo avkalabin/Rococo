@@ -12,73 +12,77 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 
 public class BrowserExtension implements
-    BeforeEachCallback,
-    AfterEachCallback,
-    TestExecutionExceptionHandler,
-    LifecycleMethodExecutionExceptionHandler {
+        BeforeEachCallback,
+        AfterEachCallback,
+        TestExecutionExceptionHandler,
+        LifecycleMethodExecutionExceptionHandler {
 
-  static {
-    String browser = System.getenv("BROWSER");
-    Configuration.browser = "firefox".equals(browser) ? "firefox" : "chrome";
-    Configuration.timeout = 8000;
-    Configuration.pageLoadStrategy = "eager";
-    if ("docker".equals(System.getProperty("test.env"))) {
-      Configuration.remote = "http://selenoid:4444/wd/hub";
-      if (browser.equals("firefox")) {
-        Configuration.browserVersion = "125.0";
-        Configuration.browserCapabilities = new FirefoxOptions().addPreference("intl.accept_languages", "ru");
-      } else {
-        Configuration.browserVersion = "127.0";
-        Configuration.browserCapabilities = new ChromeOptions().addArguments("--no-sandbox");
-      }
+    static {
+        String browser = System.getenv("BROWSER");
+        Configuration.browser = "firefox".equals(browser) ? "firefox" : "chrome";
+        Configuration.timeout = 8000;
+        Configuration.pageLoadStrategy = "eager";
+        if ("docker".equals(System.getProperty("test.env"))) {
+            Configuration.remote = "http://selenoid:4444/wd/hub";
+            if (browser.equals("firefox")) {
+                Configuration.browserVersion = "125.0";
+                Configuration.browserCapabilities = new FirefoxOptions().addPreference("intl.accept_languages", "ru");
+            } else {
+                Configuration.browserVersion = "127.0";
+                Configuration.browserCapabilities = new ChromeOptions().addArguments("--no-sandbox");
+            }
+        }
     }
-  }
 
-  @Override
-  public void afterEach(ExtensionContext context) throws Exception {
-    if (WebDriverRunner.hasWebDriverStarted()) {
-      Selenide.closeWebDriver();
+    @Override
+    public void afterEach(ExtensionContext context) throws Exception {
+        if (WebDriverRunner.hasWebDriverStarted()) {
+            Selenide.closeWebDriver();
+        }
     }
-  }
 
-  @Override
-  public void beforeEach(ExtensionContext context) throws Exception {
-    SelenideLogger.addListener("Allure-selenide", new AllureSelenide()
-        .savePageSource(false)
-        .screenshots(false)
-    );
-    Allure.addAttachment("Browser", "text/plain", Configuration.browser + " " + Configuration.browserVersion);
-  }
-
-  @Override
-  public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
-    doScreenshot();
-    throw throwable;
-  }
-
-  @Override
-  public void handleBeforeEachMethodExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
-    doScreenshot();
-    throw throwable;
-  }
-
-  @Override
-  public void handleAfterEachMethodExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
-    doScreenshot();
-    throw throwable;
-  }
-
-  private static void doScreenshot() {
-    if (WebDriverRunner.hasWebDriverStarted()) {
-      Allure.addAttachment(
-          "Screen on fail",
-          new ByteArrayInputStream(
-              ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES)
-          )
-      );
+    @Override
+    public void beforeEach(ExtensionContext context) throws Exception {
+        SelenideLogger.addListener("Allure-selenide", new AllureSelenide()
+                .savePageSource(false)
+                .screenshots(false)
+        );
+        Allure.addAttachment("Browser", "text/plain", Configuration.browser + " " + Configuration.browserVersion);
     }
-  }
+
+    @Override
+    public void handleTestExecutionException(@Nonnull ExtensionContext context,
+                                             @Nonnull Throwable throwable) throws Throwable {
+        doScreenshot();
+        throw throwable;
+    }
+
+    @Override
+    public void handleBeforeEachMethodExecutionException(@Nonnull ExtensionContext context,
+                                                         @Nonnull Throwable throwable) throws Throwable {
+        doScreenshot();
+        throw throwable;
+    }
+
+    @Override
+    public void handleAfterEachMethodExecutionException(@Nonnull ExtensionContext context,
+                                                        @Nonnull Throwable throwable) throws Throwable {
+        doScreenshot();
+        throw throwable;
+    }
+
+    private static void doScreenshot() {
+        if (WebDriverRunner.hasWebDriverStarted()) {
+            Allure.addAttachment(
+                    "Screen on fail",
+                    new ByteArrayInputStream(
+                            ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES)
+                    )
+            );
+        }
+    }
 }

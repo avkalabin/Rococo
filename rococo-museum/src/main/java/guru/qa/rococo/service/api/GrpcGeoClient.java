@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 @Component
@@ -22,7 +23,7 @@ public class GrpcGeoClient {
     @GrpcClient("grpcGeoClient")
     private RococoGeoServiceGrpc.RococoGeoServiceBlockingStub rococoGeoServiceStub;
 
-    public Country getCountryById(UUID geoId) {
+    public Country getCountryById(@Nonnull UUID geoId) {
         try {
             return rococoGeoServiceStub.getCountryById(
                     CountryRequest.newBuilder()

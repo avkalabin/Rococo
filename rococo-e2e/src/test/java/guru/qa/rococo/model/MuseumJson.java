@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.grpc.rococo.Museum;
 import guru.qa.rococo.data.entity.museum.MuseumEntity;
 
+import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
@@ -19,7 +20,8 @@ public record MuseumJson(
         @JsonProperty("geo")
         GeoJson geo) {
 
-    public static MuseumJson fromGrpc(Museum response) {
+    @Nonnull
+    public static MuseumJson fromGrpc(@Nonnull Museum response) {
 
         GeoJson geoJson = new GeoJson(
                 response.getGeo().getCity(),
@@ -34,7 +36,8 @@ public record MuseumJson(
         );
     }
 
-    public static MuseumJson fromEntity(MuseumEntity entity) {
+    @Nonnull
+    public static MuseumJson fromEntity(@Nonnull MuseumEntity entity) {
 
         GeoJson geoJson = new GeoJson(
                 entity.getCity(),
@@ -47,6 +50,4 @@ public record MuseumJson(
                 entity.getPhoto() != null ? new String(entity.getPhoto(), StandardCharsets.UTF_8) : null,
                 geoJson);
     }
-
-
 }

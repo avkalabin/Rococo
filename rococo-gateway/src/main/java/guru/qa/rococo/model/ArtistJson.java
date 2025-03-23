@@ -3,6 +3,7 @@ package guru.qa.rococo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.grpc.rococo.Artist;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public record ArtistJson(
@@ -15,7 +16,8 @@ public record ArtistJson(
         @JsonProperty("photo")
         String photo) {
 
-    public static ArtistJson fromGrpc(Artist response) {
+    @Nonnull
+    public static ArtistJson fromGrpc(@Nonnull Artist response) {
         return new ArtistJson(
 
                 UUID.fromString(response.getId()),

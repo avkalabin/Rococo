@@ -5,6 +5,7 @@ import guru.qa.grpc.rococo.Painting;
 import guru.qa.rococo.data.entity.painting.PaintingEntity;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
@@ -36,7 +37,8 @@ public record PaintingJson(
     }
 
 
-    public static PaintingJson fromEntity(PaintingEntity paintingEntity) {
+    @Nonnull
+    public static PaintingJson fromEntity(@Nonnull PaintingEntity paintingEntity) {
         MuseumJson museumJson = new MuseumJson(
                 paintingEntity.getMuseumId(),
                 null,

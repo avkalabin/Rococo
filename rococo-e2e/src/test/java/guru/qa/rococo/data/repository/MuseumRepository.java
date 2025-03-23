@@ -14,5 +14,4 @@ public interface MuseumRepository {
 
     @Nonnull
     MuseumEntity findMuseumById(@Nonnull UUID id);
-
 }

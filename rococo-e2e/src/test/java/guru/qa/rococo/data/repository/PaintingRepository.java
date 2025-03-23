@@ -14,5 +14,4 @@ public interface PaintingRepository {
 
     @Nonnull
     PaintingEntity findPaintingById(@Nonnull UUID id);
-
 }

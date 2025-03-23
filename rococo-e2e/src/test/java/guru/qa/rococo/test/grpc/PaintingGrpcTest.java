@@ -49,7 +49,6 @@ public class PaintingGrpcTest {
     private static final RococoPaintingServiceGrpc.RococoPaintingServiceBlockingStub paintingStub
             = RococoPaintingServiceGrpc.newBlockingStub(paintingChannel);
 
-
     @Test
     @Artist
     @Museum
@@ -270,5 +269,4 @@ public class PaintingGrpcTest {
                     response.getArtist().getId(), equalTo(artist.id().toString()));
         });
     }
-
 }

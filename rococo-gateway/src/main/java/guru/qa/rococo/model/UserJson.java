@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.grpc.rococo.User;
 import jakarta.validation.constraints.Size;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public record UserJson(
@@ -20,7 +21,8 @@ public record UserJson(
         @JsonProperty("avatar")
         String avatar
 ) {
-    public static UserJson fromGrpc(User user) {
+    @Nonnull
+    public static UserJson fromGrpc(@Nonnull User user) {
         return new UserJson(
                 UUID.fromString(user.getId()),
                 user.getUsername(),

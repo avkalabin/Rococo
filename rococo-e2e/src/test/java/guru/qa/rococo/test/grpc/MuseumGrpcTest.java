@@ -45,7 +45,6 @@ public class MuseumGrpcTest {
     private static final RococoMuseumServiceGrpc.RococoMuseumServiceBlockingStub museumStub
             = RococoMuseumServiceGrpc.newBlockingStub(museumChannel);
 
-
     @Test
     @Museum
     @DisplayName("Should return museum after filter by title")
@@ -76,7 +75,6 @@ public class MuseumGrpcTest {
                     museumResponse.getGeo().getCountry().getId(), equalTo(museum.geo().country().id().toString()));
         });
     }
-
 
     @Test
     @DisplayName("Should return zero if museum search result is empty")

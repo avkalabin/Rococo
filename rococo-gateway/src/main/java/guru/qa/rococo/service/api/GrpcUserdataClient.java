@@ -1,10 +1,8 @@
 package guru.qa.rococo.service.api;
 
-import guru.qa.grpc.rococo.Painting;
 import guru.qa.grpc.rococo.RococoUserdataServiceGrpc;
 import guru.qa.grpc.rococo.User;
 import guru.qa.grpc.rococo.UserRequest;
-import guru.qa.rococo.model.PaintingJson;
 import guru.qa.rococo.model.UserJson;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -14,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.annotation.Nonnull;
 
 @Component
 public class GrpcUserdataClient {
@@ -51,7 +51,8 @@ public class GrpcUserdataClient {
         }
     }
 
-    private User toGrpc(UserJson user) {
+    @Nonnull
+    private User toGrpc(@Nonnull UserJson user) {
         return User.newBuilder()
                 .setId(user.id().toString())
                 .setUsername(user.username())

@@ -30,7 +30,6 @@ public class NavigateWebTest {
                 .checkThatPageLoaded();
     }
 
-
     @Test
     @DisplayName("Toggle dark mode test")
     public void toggleDarkModeTest() {
@@ -43,5 +42,4 @@ public class NavigateWebTest {
                 .checkLogoOnDarkMode()
                 .checkThatPageInDarkMode();
     }
-
 }

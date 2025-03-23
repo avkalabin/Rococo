@@ -4,6 +4,7 @@ import guru.qa.grpc.rococo.*;
 import guru.qa.rococo.data.CountryEntity;
 import guru.qa.rococo.data.repository.CountryRepository;
 import io.grpc.stub.StreamObserver;
+import jakarta.annotation.Nonnull;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,8 @@ public class GrpcGeoService extends RococoGeoServiceGrpc.RococoGeoServiceImplBas
 
 
     @Override
-    public void getAllCountries(AllCountriesRequest request, StreamObserver<AllCountriesResponse> responseObserver) {
+    public void getAllCountries(@Nonnull AllCountriesRequest request,
+                                @Nonnull StreamObserver<AllCountriesResponse> responseObserver) {
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
         Page<CountryEntity> countryEntities = countryRepository.findAll(pageRequest);
         responseObserver.onNext(
@@ -42,7 +44,8 @@ public class GrpcGeoService extends RococoGeoServiceGrpc.RococoGeoServiceImplBas
     }
 
     @Override
-    public void getCountryById(CountryRequest request, StreamObserver<Country> responseObserver) {
+    public void getCountryById(@Nonnull CountryRequest request,
+                               StreamObserver<Country> responseObserver) {
         countryRepository.findById(UUID.fromString(request.getId()))
                 .ifPresentOrElse(
                         countryEntity -> {
@@ -54,7 +57,8 @@ public class GrpcGeoService extends RococoGeoServiceGrpc.RococoGeoServiceImplBas
                 );
     }
 
-    private Country toGrpc(CountryEntity countryEntity) {
+    @Nonnull
+    private Country toGrpc(@Nonnull CountryEntity countryEntity) {
         return Country
                 .newBuilder()
                 .setId(countryEntity.getId().toString())

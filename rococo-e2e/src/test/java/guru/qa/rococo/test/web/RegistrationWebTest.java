@@ -108,6 +108,4 @@ public class RegistrationWebTest {
                 .errorSubmit()
                 .checkAlertMessage("Allowed password length should be from 3 to 12 characters");
     }
-
-
 }

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 @Component
@@ -22,7 +23,7 @@ public class GrpcArtistClient extends RococoArtistServiceGrpc.RococoArtistServic
     @GrpcClient("grpcArtistClient")
     RococoArtistServiceGrpc.RococoArtistServiceBlockingStub rococoArtistServiceStub;
 
-    public Artist getArtistById(UUID id) {
+    public Artist getArtistById(@Nonnull UUID id) {
         try {
             return rococoArtistServiceStub.getArtistById(
                     ArtistRequest.newBuilder()

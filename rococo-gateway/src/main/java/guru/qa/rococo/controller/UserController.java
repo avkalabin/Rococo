@@ -8,6 +8,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nonnull;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -20,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping
-    public UserJson getUser(@AuthenticationPrincipal Jwt principal) {
+    public UserJson getUser(@Nonnull @AuthenticationPrincipal Jwt principal) {
         String username = principal.getClaim("sub");
         return grpcUserdataClient.getUser(username);
     }
@@ -29,5 +31,4 @@ public class UserController {
     public UserJson updateUserInfo(@Valid @RequestBody UserJson user) {
         return grpcUserdataClient.updateUser(user);
     }
-
 }

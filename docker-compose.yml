@@ -141,6 +141,16 @@ services:
     networks:
       - rococo-network
 
+  log.rococo.dc:
+    container_name: log.rococo.dc
+    image: ${PREFIX}/kafka-log-docker:latest
+    restart: always
+    depends_on:
+      auth.rococo.dc:
+        condition: service_healthy
+    networks:
+      - rococo-network
+
   frontend.rococo.dc:
     container_name: frontend.rococo.dc
     image: ${PREFIX}/rococo-client-docker:latest

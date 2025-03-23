@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
@@ -37,7 +38,8 @@ public class MuseumEntity {
     @Column(name = "geo_id", nullable = false, columnDefinition = "BINARY(16)")
     UUID geoId;
 
-    public static MuseumEntity fromJson(MuseumJson museum) {
+    @Nonnull
+    public static MuseumEntity fromJson(@Nonnull MuseumJson museum) {
         MuseumEntity museumEntity = new MuseumEntity();
         museumEntity.setId(museum.id());
         museumEntity.setTitle(museum.title());

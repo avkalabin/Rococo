@@ -3,6 +3,8 @@ package guru.qa.rococo.service;
 import guru.qa.grpc.rococo.*;
 import guru.qa.rococo.data.MuseumEntity;
 import guru.qa.rococo.data.repository.MuseumRepository;
+import guru.qa.rococo.model.EventType;
+import guru.qa.rococo.model.LogJson;
 import guru.qa.rococo.service.api.GrpcGeoClient;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -17,11 +19,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,6 +36,9 @@ class GrpcMuseumServiceTest {
 
     @Mock
     private MuseumRepository museumRepository;
+
+    @Mock
+    private KafkaTemplate<String, LogJson> kafkaTemplate;
 
     @Mock
     private GrpcGeoClient grpcGeoClient;
@@ -160,6 +168,8 @@ class GrpcMuseumServiceTest {
             return entity;
         });
         when(grpcGeoClient.getCountryById(countryId)).thenReturn(country);
+        CompletableFuture<SendResult<String, LogJson>> future = new CompletableFuture<>();
+        when(kafkaTemplate.send(anyString(), any(LogJson.class))).thenReturn(future);
 
         StreamObserver<Museum> responseObserver = mock(StreamObserver.class);
 
@@ -184,6 +194,14 @@ class GrpcMuseumServiceTest {
         assertEquals("New Description", responseMuseum.getDescription());
         assertEquals("New City", responseMuseum.getGeo().getCity());
         assertEquals("Test Country", responseMuseum.getGeo().getCountry().getName());
+
+        ArgumentCaptor<LogJson> logCaptor = ArgumentCaptor.forClass(LogJson.class);
+        verify(kafkaTemplate, times(1)).send(eq("museum"), logCaptor.capture());
+
+        LogJson capturedLog = logCaptor.getValue();
+        assertEquals(EventType.MUSEUM_CREATED, capturedLog.eventType());
+        assertEquals(savedEntity.getId(), capturedLog.entityId());
+        assertTrue(capturedLog.description().contains("Museum New Museum successfully created"));
     }
 
     @Test
@@ -207,6 +225,8 @@ class GrpcMuseumServiceTest {
         when(museumRepository.findById(museumId)).thenReturn(Optional.of(museumEntity));
         when(museumRepository.save(any(MuseumEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(grpcGeoClient.getCountryById(countryId)).thenReturn(country);
+        CompletableFuture<SendResult<String, LogJson>> future = new CompletableFuture<>();
+        when(kafkaTemplate.send(anyString(), any(LogJson.class))).thenReturn(future);
 
         StreamObserver<Museum> responseObserver = mock(StreamObserver.class);
 
@@ -231,6 +251,14 @@ class GrpcMuseumServiceTest {
         assertEquals("Updated Description", responseMuseum.getDescription());
         assertEquals("Updated City", responseMuseum.getGeo().getCity());
         assertEquals("Updated Country", responseMuseum.getGeo().getCountry().getName());
+
+        ArgumentCaptor<LogJson> logCaptor = ArgumentCaptor.forClass(LogJson.class);
+        verify(kafkaTemplate, times(1)).send(eq("museum"), logCaptor.capture());
+
+        LogJson capturedLog = logCaptor.getValue();
+        assertEquals(EventType.MUSEUM_UPDATED, capturedLog.eventType());
+        assertEquals(updatedEntity.getId(), capturedLog.entityId());
+        assertTrue(capturedLog.description().contains("Museum Updated Title successfully updated"));
     }
 
     @Test

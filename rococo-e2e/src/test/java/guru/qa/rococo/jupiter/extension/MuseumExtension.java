@@ -12,6 +12,8 @@ import guru.qa.rococo.utils.RandomDataUtils;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 
+import javax.annotation.Nonnull;
+
 public class MuseumExtension implements BeforeEachCallback, ParameterResolver {
 
     public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(MuseumExtension.class);
@@ -20,7 +22,7 @@ public class MuseumExtension implements BeforeEachCallback, ParameterResolver {
     private final MuseumClient museumClient = new MuseumDbClient();
 
     @Override
-    public void beforeEach(ExtensionContext context) {
+    public void beforeEach(@Nonnull ExtensionContext context) {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Museum.class)
                 .ifPresent(museumAnno -> {
                     String title = museumAnno.title().isEmpty() ? RandomDataUtils.randomMuseumTitle() : museumAnno.title();
@@ -44,12 +46,14 @@ public class MuseumExtension implements BeforeEachCallback, ParameterResolver {
     }
 
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public boolean supportsParameter(@Nonnull ParameterContext parameterContext,
+                                     @Nonnull ExtensionContext extensionContext) throws ParameterResolutionException {
         return parameterContext.getParameter().getType().isAssignableFrom(MuseumJson.class);
     }
 
     @Override
-    public MuseumJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public MuseumJson resolveParameter(@Nonnull ParameterContext parameterContext,
+                                       @Nonnull ExtensionContext extensionContext) throws ParameterResolutionException {
         MuseumJson museum = extensionContext.getStore(NAMESPACE)
                 .get(extensionContext.getUniqueId(), MuseumJson.class);
 

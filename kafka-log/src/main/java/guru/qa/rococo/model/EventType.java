@@ -1,0 +1,8 @@
+package guru.qa.rococo.model;
+
+public enum EventType {
+    ARTIST_CREATED, ARTIST_UPDATED,
+    MUSEUM_CREATED, MUSEUM_UPDATED,
+    PAINTING_CREATED, PAINTING_UPDATED,
+    USER_CREATED, USER_UPDATED
+}

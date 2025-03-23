@@ -14,5 +14,4 @@ public interface ArtistRepository {
 
     @Nonnull
     ArtistEntity findArtistById(UUID id);
-
 }

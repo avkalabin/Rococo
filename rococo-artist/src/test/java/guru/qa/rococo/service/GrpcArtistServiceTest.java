@@ -6,6 +6,8 @@ import guru.qa.grpc.rococo.Artist;
 import guru.qa.grpc.rococo.ArtistRequest;
 import guru.qa.rococo.data.ArtistEntity;
 import guru.qa.rococo.data.repository.ArtistRepository;
+import guru.qa.rococo.model.EventType;
+import guru.qa.rococo.model.LogJson;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
@@ -19,11 +21,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,6 +40,9 @@ class GrpcArtistServiceTest {
 
     @Mock
     private ArtistRepository artistRepository;
+
+    @Mock
+    private KafkaTemplate<String, LogJson> kafkaTemplate;
 
     @InjectMocks
     private GrpcArtistService grpcArtistService;
@@ -126,6 +134,8 @@ class GrpcArtistServiceTest {
             entity.setId(UUID.randomUUID());
             return entity;
         });
+        CompletableFuture<SendResult<String, LogJson>> future = new CompletableFuture<>();
+        when(kafkaTemplate.send(anyString(), any(LogJson.class))).thenReturn(future);
 
         StreamObserver<Artist> responseObserver = mock(StreamObserver.class);
         grpcArtistService.createArtist(request, responseObserver);
@@ -146,6 +156,14 @@ class GrpcArtistServiceTest {
         assertEquals("New Artist", responseArtist.getName());
         assertEquals("New Biography", responseArtist.getBiography());
         assertEquals("newPhoto", responseArtist.getPhoto());
+
+        ArgumentCaptor<LogJson> logCaptor = ArgumentCaptor.forClass(LogJson.class);
+        verify(kafkaTemplate, times(1)).send(eq("artist"), logCaptor.capture());
+
+        LogJson capturedLog = logCaptor.getValue();
+        assertEquals(EventType.ARTIST_CREATED, capturedLog.eventType());
+        assertEquals(savedEntity.getId(), capturedLog.entityId());
+        assertTrue(capturedLog.description().contains("Artist New Artist successfully created"));
     }
 
     @Test
@@ -159,6 +177,9 @@ class GrpcArtistServiceTest {
 
         when(artistRepository.findById(artistId)).thenReturn(Optional.of(artistEntity));
         when(artistRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        CompletableFuture<SendResult<String, LogJson>> future = new CompletableFuture<>();
+        when(kafkaTemplate.send(anyString(), any(LogJson.class))).thenReturn(future);
 
         StreamObserver<Artist> responseObserver = mock(StreamObserver.class);
         grpcArtistService.updateArtist(request, responseObserver);
@@ -179,6 +200,13 @@ class GrpcArtistServiceTest {
         assertEquals("Updated Name", responseArtist.getName());
         assertEquals("Updated Biography", responseArtist.getBiography());
         assertEquals("updatedPhoto", responseArtist.getPhoto());
+
+        ArgumentCaptor<LogJson> logCaptor = ArgumentCaptor.forClass(LogJson.class);
+        verify(kafkaTemplate, times(1)).send(eq("artist"), logCaptor.capture());
+
+        LogJson capturedLog = logCaptor.getValue();
+        assertEquals(updatedEntity.getId(), capturedLog.entityId());
+        assertTrue(capturedLog.description().contains("Artist Updated Name successfully updated"));
     }
 
     @Test

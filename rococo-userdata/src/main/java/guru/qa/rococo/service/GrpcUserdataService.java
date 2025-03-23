@@ -5,18 +5,23 @@ import guru.qa.grpc.rococo.User;
 import guru.qa.grpc.rococo.UserRequest;
 import guru.qa.rococo.data.UserEntity;
 import guru.qa.rococo.data.repository.UserRepository;
+import guru.qa.rococo.model.EventType;
+import guru.qa.rococo.model.LogJson;
 import guru.qa.rococo.model.UserJson;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
+import jakarta.annotation.Nonnull;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -26,17 +31,19 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
     private static final Logger LOG = LoggerFactory.getLogger(GrpcUserdataService.class);
 
     private final UserRepository userRepository;
+    private final KafkaTemplate<String, LogJson> kafkaTemplate;
 
     @Autowired
-    public GrpcUserdataService(UserRepository userRepository) {
+    public GrpcUserdataService(UserRepository userRepository,
+                               KafkaTemplate<String, LogJson> kafkaTemplate) {
         this.userRepository = userRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Transactional
     @KafkaListener(topics = "users", groupId = "userdata")
-    public void listener(@Payload UserJson user, ConsumerRecord<String, UserJson> cr) {
+    public void listener(@Nonnull @Payload UserJson user) {
         LOG.info("### Kafka topic [users] received message: " + user.username());
-        LOG.info("### Kafka consumer record: " + cr.toString());
         UserEntity userDataEntity = new UserEntity();
         userDataEntity.setUsername(user.username());
         UserEntity userEntity = userRepository.save(userDataEntity);
@@ -45,10 +52,18 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
                 user.username(),
                 userEntity.getId()
         ));
+        LogJson logJson = new LogJson(
+                EventType.USER_CREATED,
+                userEntity.getId(),
+                "User " + userEntity.getUsername() + " successfully created",
+                Instant.now());
+        kafkaTemplate.send("userdata", logJson);
+        LOG.info("### Kafka topic [userdata] sent message: {}", logJson);
     }
 
     @Override
-    public void getUser(UserRequest request, StreamObserver<User> responseObserver) {
+    public void getUser(@Nonnull UserRequest request,
+                        StreamObserver<User> responseObserver) {
         UserEntity userEntity = userRepository.findByUsername(request.getUsername());
         if (userEntity != null) {
             responseObserver.onNext(toGrpc(userEntity));
@@ -60,7 +75,8 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
     }
 
     @Override
-    public void updateUser(User request, StreamObserver<User> responseObserver) {
+    public void updateUser(@Nonnull User request,
+                           StreamObserver<User> responseObserver) {
         UserEntity userEntity = userRepository.findByUsername(request.getUsername());
 
         if (userEntity != null) {
@@ -70,13 +86,21 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
             userRepository.save(userEntity);
             responseObserver.onNext(toGrpc(userEntity));
             responseObserver.onCompleted();
+            LogJson logJson = new LogJson(
+                    EventType.USER_UPDATED,
+                    userEntity.getId(),
+                    "User " + userEntity.getUsername() + " successfully updated",
+                    Instant.now());
+            kafkaTemplate.send("userdata", logJson);
+            LOG.info("### Kafka topic [userdata] sent message: {}", logJson);
         } else {
             throw new StatusRuntimeException(
                     Status.NOT_FOUND.withDescription("User not found by username: " + request.getUsername()));
         }
     }
 
-    private User toGrpc(UserEntity userEntity) {
+    @Nonnull
+    private User toGrpc(@Nonnull UserEntity userEntity) {
         return User.newBuilder()
                 .setId(userEntity.getId().toString())
                 .setUsername(userEntity.getUsername())

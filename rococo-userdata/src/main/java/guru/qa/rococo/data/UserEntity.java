@@ -31,7 +31,6 @@ public class UserEntity {
     @Lob
     @Column(name = "avatar", columnDefinition = "MEDIUMBLOB")
     private byte[] avatar;
-
 }
 
 

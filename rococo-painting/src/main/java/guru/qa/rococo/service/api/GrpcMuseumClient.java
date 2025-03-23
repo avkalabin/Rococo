@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 @Component
@@ -22,7 +23,7 @@ public class GrpcMuseumClient extends RococoMuseumServiceGrpc.RococoMuseumServic
     @GrpcClient("grpcMuseumClient")
     private RococoMuseumServiceGrpc.RococoMuseumServiceBlockingStub rococoMuseumServiceStub;
 
-    public Museum getMuseumById(UUID id) {
+    public Museum getMuseumById(@Nonnull UUID id) {
         try {
             return rococoMuseumServiceStub.getMuseumById(
                     MuseumRequest.newBuilder()
@@ -36,5 +37,4 @@ public class GrpcMuseumClient extends RococoMuseumServiceGrpc.RococoMuseumServic
             }
         }
     }
-
 }

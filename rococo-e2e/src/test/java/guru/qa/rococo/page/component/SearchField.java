@@ -23,5 +23,4 @@ public class SearchField extends BaseComponent<SearchField> {
         self.setValue(query).pressEnter().pressEnter();
         return this;
     }
-
 }
