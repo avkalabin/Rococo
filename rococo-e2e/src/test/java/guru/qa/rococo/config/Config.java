@@ -26,6 +26,9 @@ public interface Config {
     String frontUrl();
 
     @Nonnull
+    String gatewayUrl();
+
+    @Nonnull
     String authUrl();
 
     @Nonnull

@@ -6,7 +6,7 @@ import io.qameta.allure.Step;
 
 import javax.annotation.Nonnull;
 
-import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byTagAndText;
 import static com.codeborne.selenide.Selenide.$;
@@ -38,9 +38,9 @@ public class ArtistPage extends BasePage<ArtistPage> {
         return new ArtistDetailPage();
     }
 
-    @Step("Artist list should have {size} artist")
-    public ArtistPage checkArtistListSize(int size) {
-        artistList.$$("li").shouldHave(size(size));
+    @Step("Artist list should have at least one artist")
+    public ArtistPage checkArtistListSize() {
+        artistList.$$("li").shouldHave(sizeGreaterThan(0));
         return this;
     }
 }

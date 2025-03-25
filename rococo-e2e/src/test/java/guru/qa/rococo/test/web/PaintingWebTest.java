@@ -95,7 +95,7 @@ public class PaintingWebTest {
     @Painting(title = "Mona Lisa", description = "It should come as no surprise that the most famous painting" +
             " in the world is that mysterious woman with the enigmatic smile")
     @DisplayName("Should be able to edit painting")
-    void shouldEditPainting(@NotNull PaintingJson painting) {
+    void shouldEditPainting(@NotNull PaintingJson painting, @NotNull ArtistJson artist, @NotNull MuseumJson museum) {
 
         final String newTitle = randomPaintingTitle();
         final String newDescription = randomDescription();
@@ -107,8 +107,10 @@ public class PaintingWebTest {
                 .checkThatPageLoaded()
                 .editPainting()
                 .setContent(PHOTO_PAINTING_NEW)
+                .selectArtist(artist.name())
                 .setTitle(newTitle)
                 .setDescription(newDescription)
+                .selectMuseum(museum.title())
                 .successSubmitModal();
         paintingDetailPage
                 .checkAlertMessage("Обновлена картина: " + newTitle);

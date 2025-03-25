@@ -1,5 +1,7 @@
 package guru.qa.rococo.config;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.annotation.Nonnull;
 
 public enum DockerConfig implements Config {
@@ -15,6 +17,12 @@ public enum DockerConfig implements Config {
     @Override
     public String frontUrl() {
         return "http://frontend.rococo.dc/";
+    }
+
+    @NotNull
+    @Override
+    public String gatewayUrl() {
+        return "http://gateway.rococo.dc:8080/";
     }
 
     @Nonnull
