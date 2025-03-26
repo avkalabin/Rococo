@@ -22,6 +22,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -76,27 +77,25 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
 
     @Override
     public void updateUser(@Nonnull User request,
-                           StreamObserver<User> responseObserver) {
-        UserEntity userEntity = userRepository.findByUsername(request.getUsername());
+                           @Nonnull StreamObserver<User> responseObserver) {
+        UserEntity userEntity = userRepository.findById(UUID.fromString(request.getId()))
+                .orElseThrow(() -> new StatusRuntimeException(
+                        Status.NOT_FOUND.withDescription("User not found by id: " + request.getId())));
 
-        if (userEntity != null) {
-            userEntity.setFirstname(request.getFirstname());
-            userEntity.setLastname(request.getLastname());
-            userEntity.setAvatar(request.getAvatar().getBytes());
-            userRepository.save(userEntity);
-            responseObserver.onNext(toGrpc(userEntity));
-            responseObserver.onCompleted();
-            LogJson logJson = new LogJson(
-                    EventType.USER_UPDATED,
-                    userEntity.getId(),
-                    "User " + userEntity.getUsername() + " successfully updated",
-                    Instant.now());
-            kafkaTemplate.send("userdata", logJson);
-            LOG.info("### Kafka topic [userdata] sent message: {}", logJson);
-        } else {
-            throw new StatusRuntimeException(
-                    Status.NOT_FOUND.withDescription("User not found by username: " + request.getUsername()));
-        }
+        userEntity.setUsername(request.getUsername());
+        userEntity.setFirstname(request.getFirstname());
+        userEntity.setLastname(request.getLastname());
+        userEntity.setAvatar(request.getAvatar().getBytes());
+        userRepository.save(userEntity);
+        responseObserver.onNext(toGrpc(userEntity));
+        responseObserver.onCompleted();
+        LogJson logJson = new LogJson(
+                EventType.USER_UPDATED,
+                userEntity.getId(),
+                "User " + userEntity.getUsername() + " successfully updated",
+                Instant.now());
+        kafkaTemplate.send("userdata", logJson);
+        LOG.info("### Kafka topic [userdata] sent message: {}", logJson);
     }
 
     @Nonnull

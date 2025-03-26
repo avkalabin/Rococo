@@ -75,7 +75,7 @@ public abstract class BasePage<T extends BasePage<?>> {
             }
 
             options.last().scrollIntoView(true).click();
-            sleep(2000);
+            sleep(3000);
             options.shouldHave(sizeGreaterThan(initialOptionsCount)
                     .because("Option with text: '" + option + "' not found. " +
                             "Timed out waiting for new options to be loaded. Current options count:" + options.size()));
