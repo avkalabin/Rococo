@@ -20,6 +20,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -94,13 +95,14 @@ class GrpcUserdataServiceTest {
     @Test
     void updateUserShouldUpdateAndReturnUserWhenFound() {
         User request = User.newBuilder()
+                .setId(userId.toString())
                 .setUsername("testUser")
                 .setFirstname("UpdatedFirstname")
                 .setLastname("UpdatedLastname")
                 .setAvatar("updatedAvatar")
                 .build();
 
-        when(userRepository.findByUsername("testUser")).thenReturn(userEntity);
+        when(userRepository.findById(userId)).thenReturn(Optional.ofNullable(userEntity));
         when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         CompletableFuture<SendResult<String, LogJson>> future = new CompletableFuture<>();
@@ -142,9 +144,10 @@ class GrpcUserdataServiceTest {
     @Test
     void updateUserShouldReturnNotFoundWhenUserDoesNotExist() {
         User request = User.newBuilder()
-                .setUsername("unknownUser")
+                .setId(userId.toString())
                 .build();
-        when(userRepository.findByUsername("unknownUser")).thenReturn(null);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         StreamObserver<User> responseObserver = mock(StreamObserver.class);
 
@@ -153,6 +156,6 @@ class GrpcUserdataServiceTest {
         });
 
         assertEquals(Status.NOT_FOUND.getCode(), exception.getStatus().getCode());
-        assertEquals("User not found by username: unknownUser", exception.getStatus().getDescription());
+        assertEquals("User not found by id: " + userId, exception.getStatus().getDescription());
     }
 }
