@@ -25,7 +25,7 @@ buildscript {
 plugins {
     id 'io.qameta.allure' version '2.12.0'
     id 'io.qameta.allure-adapter' version '2.12.0'
-    id "org.gradle.test-retry" version "1.5.3"
+    id "org.gradle.test-retry" version "1.6.2"
 }
 
 group = 'guru.qa'

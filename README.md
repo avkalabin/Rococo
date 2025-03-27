@@ -17,6 +17,7 @@
 - [Автоматический запуск тестов в Github Actions](#gha)
 - [Пример Allure отчёта](#report)
 
+<a name="technology"></a>
 ## Используемые технологии
 
 - [Spring Authorization Server](https://spring.io/projects/spring-authorization-server)
@@ -42,6 +43,7 @@
 - [GHA](https://docs.github.com/en/actions)
 - И многие другие
 
+<a name="architecture"></a>
 ## Архитектура приложения
 
 Приложение Rococo построено на основе микросервисной архитектуры:
@@ -61,6 +63,7 @@
 
 <img src="img/schema.jpg" alt="Architecture">
 
+<a name="ports"></a>
 ## Сетевые порты и их назначение
 
 |  Сервис  |     Порт      |
@@ -74,6 +77,7 @@
 | PAINTING |  8095 (rest)  |
 | FRONTEND |  80 (server)  |
 
+<a name="minimum-system-requirements"></a>
 **Минимальные предусловия для запуска проекта локально**
 
 - На Windows рекомендуется используется терминал bash, а не powershell
@@ -87,6 +91,7 @@
 docker volume create rococo-mysql
 ```
 
+<a name="local-run"></a>
 ## Запуск Rococo локально в IDE:
 
 #### 1. Запустить фронтенд, БД, zookeeper и kafka:
@@ -122,6 +127,7 @@ $ gradle bootRun --args='--spring.profiles.active=local'
 
 #### 4  Запустить в любой последовательности другие сервисы: artist, museum, painting, gateway, userdata, geo, kafka-log
 
+<a name="docker-run"></a>
 ## Запуск Rococo в Docker
 
 #### 1. Создать бесплатную учетную запись на https://hub.docker.com/ (если отсутствует)
@@ -130,7 +136,6 @@ $ gradle bootRun --args='--spring.profiles.active=local'
 
 #### 3. Выполнить docker login с созданным access_token (в инструкции это описано)
 
-<a name="hosts"></a>
 #### 4. Прописать в etc/hosts доменное имя для сервисов
 
 #### frontend:  127.0.0.1 frontend.rococo.dc,
@@ -181,6 +186,7 @@ $ bash docker-compose-dev.sh
 Rococo при запуске в докере будет работать для Вас по адресу http://frontend.rococo.dc:80, этот порт не нужно
 указывать в браузере, таким образом переходить напрямую по ссылке http://frontend.rococo.dc
 
+<a name="#local-run-tests"></a>
 ## Запуск тестов в локальном окружении
 
 **Обратите внимание! Запуск тестов происходит в три потока. Изменить число потоков можно в
@@ -195,7 +201,7 @@ $ ./gradlew :rococo-tests:clean test
 ```posh
 $ ./gradlew :rococo-tests:allureServe
 ```
-
+<a name="#docker-run-tests"></a>
 ## Запуск тестов в Docker
 1.  Запустить скрипт:
 ```posh
@@ -223,6 +229,7 @@ $ docker logs -f rococo-e2e
 ```
 4. После прогона аллюр отчёт будет доступен по адресу allure:5252
 
+<a name="#gha"></a>
 ## Автоматический запуск тестов в Github Actions
 
 При создании pull request в репозитории тесты будут выполнены автоматически и в pull request будет добавлена ссылка на отчёт.
