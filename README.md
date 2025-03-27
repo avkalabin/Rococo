@@ -186,7 +186,7 @@ $ bash docker-compose-dev.sh
 Rococo при запуске в докере будет работать для Вас по адресу http://frontend.rococo.dc:80, этот порт не нужно
 указывать в браузере, таким образом переходить напрямую по ссылке http://frontend.rococo.dc
 
-<a name="#local-run-tests"></a>
+<a name="local-run-tests"></a>
 ## Запуск тестов в локальном окружении
 
 **Обратите внимание! Запуск тестов происходит в три потока. Изменить число потоков можно в
@@ -201,7 +201,7 @@ $ ./gradlew :rococo-tests:clean test
 ```posh
 $ ./gradlew :rococo-tests:allureServe
 ```
-<a name="#docker-run-tests"></a>
+<a name="docker-run-tests"></a>
 ## Запуск тестов в Docker
 1.  Запустить скрипт:
 ```posh
@@ -229,7 +229,7 @@ $ docker logs -f rococo-e2e
 ```
 4. После прогона аллюр отчёт будет доступен по адресу allure:5252
 
-<a name="#gha"></a>
+<a name="gha"></a>
 ## Автоматический запуск тестов в Github Actions
 
 При создании pull request в репозитории тесты будут выполнены автоматически и в pull request будет добавлена ссылка на отчёт.

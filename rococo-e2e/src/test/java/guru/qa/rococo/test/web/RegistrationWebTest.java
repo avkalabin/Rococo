@@ -9,11 +9,14 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import static guru.qa.rococo.utils.RandomDataUtils.*;
 
 @WebTest
 @Tag("web")
+@Execution(ExecutionMode.CONCURRENT)
 @DisplayName("WEB | Registration test")
 public class RegistrationWebTest {
 

@@ -16,6 +16,7 @@ import guru.qa.rococo.page.painting.PaintingPage;
 import guru.qa.rococo.utils.ImgUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 @WebTest
 @Tag("web")
+@Order(1)
 @DisplayName("WEB | Painting test")
 public class PaintingWebTest {
 
