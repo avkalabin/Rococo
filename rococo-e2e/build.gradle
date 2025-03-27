@@ -25,7 +25,6 @@ buildscript {
 plugins {
     id 'io.qameta.allure' version '2.12.0'
     id 'io.qameta.allure-adapter' version '2.12.0'
-    id "org.gradle.test-retry" version "1.5.3"
 }
 
 group = 'guru.qa'
@@ -116,9 +115,6 @@ tasks.register('printVersion') {
 test {
     options {
         systemProperties(System.getProperties())
-    }
-    retry {
-        maxRetries = 1
     }
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'

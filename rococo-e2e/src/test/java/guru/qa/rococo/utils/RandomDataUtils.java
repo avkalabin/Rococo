@@ -38,7 +38,7 @@ public class RandomDataUtils {
 
     @Nonnull
     public static String randomArtistName() {
-        return faker.artist().name();
+        return faker.artist().name() + Math.random();
     }
 
     @Nonnull
