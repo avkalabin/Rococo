@@ -128,7 +128,7 @@ public class MuseumRestTest {
     @ApiLogin
     @User
     @DisplayName("Should update museum")
-    void shouldUpdateMuseum(@Token String token, MuseumJson museum) {
+    void shouldUpdateMuseum(@Token String token, @Nonnull MuseumJson museum) {
         MuseumJson updatedMuseum = new MuseumJson(
                 museum.id(),
                 randomMuseumTitle(),
