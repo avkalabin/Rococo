@@ -101,6 +101,9 @@ public class GrpcPaintingClient {
             Painting response = rococoPaintingServiceStub.updatePainting(request);
             return PaintingJson.fromGrpc(response);
         } catch (StatusRuntimeException e) {
+            if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getStatus().getDescription(), e);
+            }
             LOG.error("### Error while calling gRPC server ", e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "The gRPC operation was cancelled", e);
         }

@@ -19,6 +19,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byTagAndText;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unchecked")
@@ -42,12 +43,14 @@ public abstract class BasePage<T extends BasePage<?>> {
 
     @Step("Success submit modal form")
     public void successSubmitModal() {
+        sleep(1500);
         submitFormButton.click();
         modalPage.shouldNotBe(visible);
     }
 
     @Step("Submit form with error")
     public T errorSubmit() {
+        sleep(1000);
         submitFormButton.click();
         return (T) this;
     }
@@ -72,6 +75,7 @@ public abstract class BasePage<T extends BasePage<?>> {
             }
 
             options.last().scrollIntoView(true).click();
+            sleep(1000);
             options.shouldHave(sizeGreaterThan(initialOptionsCount)
                     .because("Option with text: '" + option + "' not found. " +
                             "Timed out waiting for new options to be loaded. Current options count:" + options.size()));

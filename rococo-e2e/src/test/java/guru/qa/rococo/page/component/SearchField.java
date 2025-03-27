@@ -6,6 +6,7 @@ import io.qameta.allure.Step;
 import javax.annotation.Nonnull;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class SearchField extends BaseComponent<SearchField> {
 
@@ -20,7 +21,8 @@ public class SearchField extends BaseComponent<SearchField> {
     @Step("Perform search for query {query}")
     @Nonnull
     public SearchField search(String query) {
-        self.setValue(query).pressEnter().pressEnter();
+        sleep(1000);
+        self.setValue(query).pressEnter();
         return this;
     }
 }

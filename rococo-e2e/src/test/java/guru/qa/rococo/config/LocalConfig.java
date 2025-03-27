@@ -1,5 +1,7 @@
 package guru.qa.rococo.config;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.annotation.Nonnull;
 
 public enum LocalConfig implements Config {
@@ -15,6 +17,12 @@ public enum LocalConfig implements Config {
     @Override
     public String frontUrl() {
         return "http://127.0.0.1:3000/";
+    }
+
+    @NotNull
+    @Override
+    public String gatewayUrl() {
+        return "http://127.0.0.1:8080/";
     }
 
     @Nonnull

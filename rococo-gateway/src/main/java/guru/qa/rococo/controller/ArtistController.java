@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -34,6 +35,7 @@ public class ArtistController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ArtistJson createArtist(@Valid @RequestBody ArtistJson artist) {
         return grpcArtistClient.createArtist(artist);
     }

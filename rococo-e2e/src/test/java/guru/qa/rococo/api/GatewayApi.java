@@ -1,4 +1,4 @@
-package guru.qa.rococo.api.core;
+package guru.qa.rococo.api;
 
 import guru.qa.rococo.model.*;
 import guru.qa.rococo.model.rest.pageable.RestResponsePage;
@@ -69,7 +69,7 @@ public interface GatewayApi {
     Call<PaintingJson> updatePainting(@Header("Authorization") String bearerToken,
                                       @Body PaintingJson museum);
 
-    @GET("api/session/")
+    @GET("api/session")
     Call<SessionJson> getSessionUser(@Header("Authorization") String bearerToken);
 
     @GET("/api/user")
@@ -78,6 +78,4 @@ public interface GatewayApi {
     @PATCH("/api/user")
     Call<UserJson> updateUser(@Header("Authorization") String bearerToken,
                               @Body UserJson user);
-
-
 }

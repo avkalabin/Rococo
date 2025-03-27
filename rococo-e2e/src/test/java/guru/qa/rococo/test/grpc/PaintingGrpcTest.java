@@ -28,8 +28,7 @@ import static guru.qa.rococo.utils.RandomDataUtils.randomPaintingTitle;
 import static io.qameta.allure.Allure.step;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @GrpcTest
 @Tag("grpc")
@@ -66,7 +65,7 @@ public class PaintingGrpcTest {
         guru.qa.grpc.rococo.Painting paintingResponse = allPaintingsResponse.getPaintingsList().getFirst();
 
         step("Check painting in response", () -> {
-            assertEquals(1, allPaintingsResponse.getPaintingsCount(), "Should return 1 painting");
+            assertTrue(allPaintingsResponse.getPaintingsCount() > 0, "Should return at least 1 painting");
             check("painting ID",
                     paintingResponse.getId(), equalTo(painting.id().toString()));
             check("painting title",

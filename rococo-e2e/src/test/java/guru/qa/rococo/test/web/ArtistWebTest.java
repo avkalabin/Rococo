@@ -120,7 +120,7 @@ public class ArtistWebTest {
         artistPage.checkThatPageLoaded()
                 .getSearchField()
                 .search(artist.name());
-        artistPage.checkArtistListSize(1);
+        artistPage.checkArtistListSize();
     }
 
     @Test

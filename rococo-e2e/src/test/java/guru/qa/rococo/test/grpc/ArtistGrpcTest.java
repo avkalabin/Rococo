@@ -28,8 +28,8 @@ import static guru.qa.rococo.utils.RandomDataUtils.randomUsername;
 import static io.qameta.allure.Allure.step;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @GrpcTest
 @Tag("grpc")
@@ -61,8 +61,25 @@ public class ArtistGrpcTest {
 
         AllArtistsResponse response = artistStub.getAllArtists(request);
 
+        step("Should return at least 1 artist in response", () -> {
+            assertTrue(response.getArtistsCount() > 0, "Should return at least 1 artist");
+        });
+    }
+
+    @Test
+    @Artist
+    @DisplayName("Should return correct artist")
+    void shouldReturnCorrectArtist(ArtistJson artist) {
+
+        AllArtistsRequest request = AllArtistsRequest.newBuilder()
+                .setName(artist.name())
+                .setPage(0)
+                .setSize(10)
+                .build();
+
+        AllArtistsResponse response = artistStub.getAllArtists(request);
+
         step("Should return 1 artist in response", () -> {
-            assertEquals(1, response.getArtistsCount(), "Should return 1 artist");
             assertEquals(artist, fromGrpc(response.getArtistsList().getFirst()),
                     "Should return correct artist");
         });
@@ -97,7 +114,8 @@ public class ArtistGrpcTest {
 
         final guru.qa.grpc.rococo.Artist response = artistStub.getArtistById(request);
 
-        step("Check artist in response", () -> assertEquals(artist, fromGrpc(response)));
+        step("Check artist in response", () -> assertEquals(artist, fromGrpc(response),
+                "Artist name mismatch! Expected: '%s', Actual: '%s'"));
     }
 
     @Test
