@@ -94,7 +94,7 @@ docker volume create rococo-mysql
 <a name="local-run"></a>
 ## Запуск Rococo локально в IDE:
 
-#### 1. Запустить фронтенд, БД, zookeeper и kafka:
+#### Способ 1. Запустить фронтенд, БД, zookeeper и kafka:
 
 Запустив скрипт:
 ```posh
@@ -114,18 +114,18 @@ npm i
 npm run dev
 ```
 Фронт стартанет в браузере на порту 3000: http://127.0.0.1:3000/
-#### 2. Прописать run конфигурацию для всех сервисов rococo-* - Active profiles local
+#### Способ 2. Прописать run конфигурацию для всех сервисов rococo-* - Active profiles local
 
 Для этого зайти в меню Run -> Edit Configurations -> выбрать main класс -> в поле Environment variables указать spring.profiles.active=local
 <img src="img/profile.jpg" alt="Profile">
-#### 3 Запустить сервис rococo-auth c помощью gradle или командой Run в IDE:
+#### Способ 3 Запустить сервис rococo-auth c помощью gradle или командой Run в IDE:
 
 ```posh
 $ cd rococo-auth
 $ gradle bootRun --args='--spring.profiles.active=local'
 ```
 
-#### 4  Запустить в любой последовательности другие сервисы: artist, museum, painting, gateway, userdata, geo, kafka-log
+#### Способ 4  Запустить в любой последовательности другие сервисы: artist, museum, painting, gateway, userdata, geo, kafka-log
 
 <a name="docker-run"></a>
 ## Запуск Rococo в Docker
